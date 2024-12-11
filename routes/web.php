@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 // Unguarded
@@ -21,4 +22,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/settings', fn() => view('app.settings'))->name('app.settings');
 
     Route::get('/profile', fn() => view('app.profile'))->name('app.profile');
+});
+
+Route::get('/artisan/optimize', function () {
+    Artisan::call('optimize');
+    return 'Application optimized successfully!';
+});
+
+Route::get('/artisan/migrate', function () {
+    Artisan::call('migrate');
+    return 'Migrations executed successfully!';
 });
