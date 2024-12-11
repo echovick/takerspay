@@ -145,7 +145,7 @@ class OrderRecord extends Component
             if ($this->order->order_step) {
                 $this->step = $this->order->order_step;
             }
-        } else if (isset($_GET['ref'])) {
+        } else if (isset($_GET['ref']) && !empty($_GET['ref'])) {
             $this->order = Order::where('reference', $_GET['ref'])->first();
             if (!$this->order) {
                 $this->newOrder();
@@ -158,7 +158,7 @@ class OrderRecord extends Component
                 $this->step = $this->order->order_step;
             }
         } else {
-
+            $this->newOrder();
         }
     }
 

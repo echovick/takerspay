@@ -3,7 +3,7 @@
 @section('content')
     <section class="bg-gray-50 dark:bg-gray-900">
         <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
-            <a href="#" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
+            <a href="{{ route('landing') }}" class="flex items-center mb-6 text-2xl font-semibold text-gray-900 dark:text-white">
                 <img src="{{ asset('assets/imgs/takers-pay-logo.png') }}" class="h-[100px] sm:h-[100px]" alt="TakersPay Logo" />
                 TakersPay
             </a>

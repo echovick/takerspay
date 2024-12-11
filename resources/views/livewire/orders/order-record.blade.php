@@ -12,7 +12,7 @@
                 alt="Rounded avatar">
             <p class="text-xs font-semibold px-3">{{ auth()->user()->metaData->first_name }}
                 {{ auth()->user()->metaData->last_name }}<br>
-                <span class="font-normal text-xs">ORDER: {{ strtoupper($order->reference) }}</span>
+                <span class="font-normal text-xs">ORDER: {{ strtoupper($order?->reference) }}</span>
             </p>
         </div>
         <div>
