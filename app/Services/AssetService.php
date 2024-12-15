@@ -13,4 +13,12 @@ class AssetService
         }
         return Asset::where('type', $type)->get();
     }
+
+    public function getAsset(string $assetId, AssetType $type = null): ?Asset
+    {
+        if(isset($type)){
+            return Asset::where('id', $assetId)->where('type', $type)->first();
+        }
+        return Asset::find($assetId);
+    }
 }

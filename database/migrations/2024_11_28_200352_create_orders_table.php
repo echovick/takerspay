@@ -17,11 +17,11 @@ return new class extends Migration
             $table->foreignId('asset_id')->nullable()->constrained()->onDelete('cascade');
             $table->string('reference')->unique();
             $table->enum('type', ['buy', 'sell'])->nullable();
-            $table->enum('asset', ['crypto', 'card'])->nullable();
+            $table->enum('asset', ['crypto', 'giftcard'])->nullable();
             $table->decimal('asset_value', 15, 2)->nullable();
             $table->decimal('dollar_price', 15, 2)->nullable();
             $table->decimal('naira_price', 15, 2)->nullable();
-            $table->enum('transaction_status', ['pending', 'completed', 'canceled'])->default('pending');
+            $table->enum('transaction_status', ['pending', 'completed', 'canceled', 'confirmed', 'processing'])->default('pending');
             $table->string('file_url')->nullable();
             $table->foreignId('wallet_id')->nullable()->constrained()->onDelete('cascade');
             $table->json('chat')->nullable();
