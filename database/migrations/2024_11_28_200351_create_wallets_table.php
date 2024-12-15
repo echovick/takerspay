@@ -14,8 +14,9 @@ return new class extends Migration
         Schema::create('wallets', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->enum('type', ['crypto', 'fiat']);
-            $table->string('crypto_wallet_number')->nullable();
+            $table->foreignId('asset_id')->nullable()->constrained();
+            $table->enum('type', ['fiat', 'crypto']);
+            $table->text('crypto_wallet_number')->nullable();
             $table->string('account_number')->nullable();
             $table->string('bank_name')->nullable();
             $table->string('account_name')->nullable();

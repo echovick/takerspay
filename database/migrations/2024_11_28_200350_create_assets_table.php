@@ -14,9 +14,11 @@ return new class extends Migration
         Schema::create('assets', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('slug');
             $table->string('type');
-            $table->string('available_units');
-            $table->string('naira_cost_per_unit');
+            $table->float('available_units')->default(0); // Per Dollar
+            $table->float('naira_buy_rate')->default(0); // Per Dollar
+            $table->float('naira_sell_rate')->default(0); // Per Dollar
             $table->timestamps();
         });
     }

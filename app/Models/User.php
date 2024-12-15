@@ -67,4 +67,14 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserMetaData::class);
     }
+
+    public function fiatWallets()
+    {
+        return Wallet::where('user_id', $this->attributes['id'])->where('type', 'fiat')->get();
+    }
+
+    public function cryptoWallets()
+    {
+        return Wallet::where('user_id', $this->attributes['id'])->where('type', 'crypto')->get();
+    }
 }

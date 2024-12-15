@@ -12,8 +12,10 @@ class Asset extends Model
 
     protected $fillable = [
         'name',
+        'slug',
         'type',
         'available_units',
-        'naira_cost_per_unit'
+        'naira_buy_rate',
+        'dollar_buy_rate'
     ];
 }

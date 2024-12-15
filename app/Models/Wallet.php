@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Wallet extends Model
 {
@@ -12,6 +13,7 @@ class Wallet extends Model
 
     protected $fillable = [
         'user_id',
+        'asset_id',
         'type',
         'crypto_wallet_number',
         'account_number',
@@ -29,6 +31,11 @@ class Wallet extends Model
     public function orders()
     {
         return $this->hasMany(Order::class);
+    }
+
+    public function asset()
+    {
+        return $this->belongsTo(Asset::class);
     }
 
 }
