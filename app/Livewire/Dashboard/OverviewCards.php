@@ -12,7 +12,7 @@ class OverviewCards extends Component
     public function mount()
     {
         $user = Auth::user();
-        $this->data['pendingOrders'] = $user->orders->where('transaction_status', 'pending');
+        $this->data['pendingOrders'] = $user->orders->whereIn('transaction_status', ['pending','confirmed']);
         $this->data['completedOrders'] = $user->orders->where('transaction_status', 'completed');
     }
 

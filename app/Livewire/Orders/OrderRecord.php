@@ -6,13 +6,14 @@ use App\Constants\AssetType;
 use App\Models\Order;
 use App\Services\AssetService;
 use App\Traits\ChatSystem;
-use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Livewire\Attributes\Validate;
 use Livewire\Component;
+use Livewire\WithFileUploads;
 
 class OrderRecord extends Component
 {
-    use ChatSystem;
+    use ChatSystem, WithFileUploads;
 
     public $order;
     public $cryptoAssets;
@@ -24,6 +25,8 @@ class OrderRecord extends Component
 
     protected AssetService $assetService;
 
+    public $photos = [];
+
     public function boot(AssetService $assetService)
     {
         $this->assetService = $assetService;
@@ -34,6 +37,13 @@ class OrderRecord extends Component
     {
         $this->getAvailableCryptoAssets();
         $this->getAvailableGiftCardAssets();
+    }
+
+    public function uploadImage()
+    {
+        foreach ($this->photos as $photo) {
+            $photo->store(path: 'photos');
+        }
     }
 
     private function updateChatRecordOnDb(array $chat)
