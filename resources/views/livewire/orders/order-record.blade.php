@@ -96,7 +96,7 @@
                                 </div>
                                 <div
                                     class="flex flex-col leading-1.5 p-4 border-gray-200 bg-primary-1050 rounded-s-xl rounded-es-xl dark:bg-blue-700">
-                                    <img src="{{ asset($file) }}" alt="Image">
+                                    <img src="{{ asset('public/'.$file) }}" alt="Image">
                                 </div>
                                 <span
                                     class="text-xs font-normal text-gray-500 dark:text-gray-400 text-right mb-3"></span>
