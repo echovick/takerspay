@@ -29,6 +29,11 @@ Route::get('/artisan/optimize', function () {
     return 'Application optimized successfully!';
 });
 
+Route::get('/artisan/storage-link', function () {
+    Artisan::call('storage:link');
+    return 'Symlink Created Successfully successfully!';
+});
+
 Route::get('/artisan/migrate', function () {
     Artisan::call('migrate');
     return 'Migrations executed successfully!';
