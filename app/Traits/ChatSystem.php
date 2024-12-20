@@ -6,6 +6,7 @@ use App\Models\Order;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 trait ChatSystem
 {
@@ -14,12 +15,15 @@ trait ChatSystem
 
         if (!$this->order && isset($_GET['ref'])) {
             $this->order = $this->order = Order::where('reference', $_GET['ref'])->first();
-        } else if(!$this->order && !isset($_GET['ref'])) {
+        } else if (!$this->order && !isset($_GET['ref'])) {
             return;
         }
         $userInput = trim($this->input);
         if (isset($userInput) && !empty($userInput)) {
-            $sender = Auth::user()->role == 'user' ? 'user' : 'Bot';
+            $sender = 'user';
+            if (Str::contains(request()->url(), '/tp-admin') && Auth::user()->role == 'admin') {
+                $sender = 'Bot';
+            }
             $this->addMessage($sender, $userInput);
         }
 
