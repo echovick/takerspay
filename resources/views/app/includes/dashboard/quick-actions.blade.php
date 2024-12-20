@@ -1,6 +1,11 @@
 <div>
     <p class="font-semibold text-xs mb-2">Quick Actions</p>
     <div class="flex flex-row mb-3 text-white">
+        @if (Auth::user()->role == 'admin')
+            <a href="{{ url('/tp-admin') }}"><span
+                    class="bg-primary-1010 shadow text-white-800 text-xs font-medium me-2 px-2.5 py-1 rounded dark:bg-green-900 dark:text-green-300">
+                    Admin Panel</span></a>
+        @endif
         <a href="{{ route('app.wallets') }}"><span
                 class="bg-primary-1010 shadow text-white-800 text-xs font-medium me-2 px-2.5 py-1 rounded dark:bg-green-900 dark:text-green-300">Add
                 Bank Account</span></a>

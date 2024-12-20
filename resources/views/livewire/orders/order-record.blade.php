@@ -2,11 +2,9 @@
     <div class="flex flex-row justify-between bg-grey">
         <div class="flex flex-row">
             <a href="{{ route('app.home') }}">
-                <svg class="w-7 h-7 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                    width="24" height="24" fill="none" viewBox="0 0 24 24">
-                    <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                        d="M5 12h14M5 12l4-4m-4 4 4 4" />
-                </svg>
+                @if (Auth::user()->role == 'user')
+                    <x-icons.left-arrow />
+                @endif
             </a>
             <img class="w-7 h-7 ml-2 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
                 alt="Rounded avatar">
@@ -150,10 +148,9 @@
                             viewBox="0 0 20 18">
                             <path fill="currentColor"
                                 d="M13 5.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0ZM7.565 7.423 4.5 14h11.518l-2.516-3.71L11 13 7.565 7.423Z" />
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                stroke-width="2" d="M18 1H2a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1Z" />
-                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"
-                                stroke-width="2"
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M18 1H2a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h16a1 1 0 0 0 1-1Z" />
+                            <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                 d="M13 5.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0ZM7.565 7.423 4.5 14h11.518l-2.516-3.71L11 13 7.565 7.423Z" />
                         </svg>
                         <span class="sr-only">Upload image</span>
@@ -187,8 +184,11 @@
                 </div>
             </form>
         @else
-            <x-alerts.info-alert> This Order Has Been {{ $order->transaction_status }}, you can no longer make changes
-                to it</x-alert.info-alert>
+            @if (Auth::user()->role == 'user')
+                <x-alerts.info-alert> This Order Has Been {{ $order->transaction_status }}, you can no longer make
+                    changes
+                    to it</x-alert.info-alert>
+            @endif
         @endif
     </div>
 </div>
