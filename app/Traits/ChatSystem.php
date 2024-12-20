@@ -2,6 +2,7 @@
 namespace App\Traits;
 
 use App\Constants\AssetType;
+use App\Models\Order;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -10,6 +11,12 @@ trait ChatSystem
 {
     public function handleInput()
     {
+
+        if (!$this->order && isset($_GET['ref'])) {
+            $this->order = $this->order = Order::where('reference', $_GET['ref'])->first();
+        } else if(!$this->order && !isset($_GET['ref'])) {
+            return;
+        }
         $userInput = trim($this->input);
         if (isset($userInput) && !empty($userInput)) {
             $sender = Auth::user()->role == 'user' ? 'user' : 'Bot';
