@@ -25,6 +25,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/order-management', fn() => view('admin.order-management'))->name('admin.order-management');
         Route::get('/wallet-management', fn() => view('admin.wallet-management'))->name('admin.wallet-management');
         Route::get('/admin-management', fn() => view('admin.admin-management'))->name('admin.admin-management');
+        Route::get('/asset-management', fn() => view('admin.asset-management'))->name('admin.asset-management');
         Route::get('/transaction-logs', fn() => view('admin.transaction-logs'))->name('admin.transaction-logs');
         Route::get('/reports', fn() => view('admin.reports'))->name('admin.reports');
         Route::get('/audit-trail', fn() => view('admin.audit-trail'))->name('admin.audit-trail');

@@ -16,6 +16,6 @@ class Asset extends Model
         'type',
         'available_units',
         'naira_buy_rate',
-        'dollar_buy_rate'
+        'naira_sell_rate'
     ];
 }
