@@ -21,7 +21,7 @@ trait ChatSystem
         $userInput = trim($this->input);
         if (isset($userInput) && !empty($userInput)) {
             $sender = 'user';
-            if (Str::contains(request()->url(), '/tp-admin') && Auth::user()->role == 'admin') {
+            if (Str::contains(request()->url(), 'tp-admin') && Auth::user()->role == 'admin') {
                 $sender = 'Bot';
             }
             $this->addMessage($sender, $userInput);
