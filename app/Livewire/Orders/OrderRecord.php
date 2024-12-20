@@ -22,6 +22,8 @@ class OrderRecord extends Component
     public $input = '';
     public $step = null;
     public $data = [];
+    public $ref;
+    public $url;
 
     protected AssetService $assetService;
 
@@ -30,11 +32,13 @@ class OrderRecord extends Component
     public function boot(AssetService $assetService)
     {
         $this->assetService = $assetService;
-        $this->setOrder();
     }
 
     public function mount()
     {
+        $this->ref = $_GET['ref'] ?? '';
+        $this->url = request()->path();
+        $this->setOrder();
         $this->getAvailableCryptoAssets();
         $this->getAvailableGiftCardAssets();
     }
@@ -70,8 +74,8 @@ class OrderRecord extends Component
 
     private function setOrder()
     {
-        if (isset($_GET['ref']) && !empty($_GET['ref'])) {
-            $this->order = Order::where('reference', $_GET['ref'])->first();
+        if (isset($this->ref) && !empty($this->ref)) {
+            $this->order = Order::where('reference', $this->ref)->first();
             $this->handleOrder();
         } else if (session()->has('orderId')) {
             $this->order = Order::find(session('orderId'));

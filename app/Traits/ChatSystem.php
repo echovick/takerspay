@@ -12,16 +12,15 @@ trait ChatSystem
 {
     public function handleInput()
     {
-
-        if (!$this->order && isset($_GET['ref'])) {
-            $this->order = $this->order = Order::where('reference', $_GET['ref'])->first();
-        } else if (!$this->order && !isset($_GET['ref'])) {
+        if (!$this->order && isset($this->ref)) {
+            $this->order = $this->order = Order::where('reference', $this->ref)->first();
+        } else if (!$this->order && !isset($this->ref)) {
             return;
         }
         $userInput = trim($this->input);
         if (isset($userInput) && !empty($userInput)) {
             $sender = 'user';
-            if (Str::contains(request()->url(), 'tp-admin') && Auth::user()->role == 'admin') {
+            if (Str::contains($this->url, 'tp-admin') && Auth::user()->role == 'admin') {
                 $sender = 'Bot';
             }
             $this->addMessage($sender, $userInput);
