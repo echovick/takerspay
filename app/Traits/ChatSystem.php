@@ -3,6 +3,7 @@ namespace App\Traits;
 
 use App\Constants\AssetType;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 
 trait ChatSystem
@@ -11,7 +12,8 @@ trait ChatSystem
     {
         $userInput = trim($this->input);
         if (isset($userInput) && !empty($userInput)) {
-            $this->addMessage('user', $userInput);
+            $sender = Auth::user()->role == 'user' ? 'user' : 'Bot';
+            $this->addMessage($sender, $userInput);
         }
 
         // Handle "reset" command
@@ -175,7 +177,7 @@ trait ChatSystem
         foreach ($this->photos as $photo) {
             $path = $photo->storePublicly('photos', 'public');
             $url = Storage::url($path);
-            $fileUrl .= $url.',';
+            $fileUrl .= $url . ',';
         }
 
         $fileUrl = rtrim($fileUrl, ',');
