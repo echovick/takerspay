@@ -215,6 +215,7 @@ trait ChatSystem
                 $sender = 'Bot';
             }
             $this->addImage($sender, $url, $userInput);
+            $this->photos = null;
         }
     }
 
