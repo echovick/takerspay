@@ -20,7 +20,7 @@ trait ChatSystem
         $userInput = trim($this->input);
         if (isset($userInput) && !empty($userInput)) {
             $sender = 'user';
-            if (Str::contains($this->url, 'tp-admin') && Auth::user()->role == 'admin') {
+            if (Str::contains($this->url, 'tp-admin') && in_array(Auth::user()->role, ['admin', 'super-admin'])) {
                 $sender = 'Bot';
             }
             $this->addMessage($sender, $userInput);
@@ -35,6 +35,13 @@ trait ChatSystem
         // Handle "cancel" command
         if (strtolower($userInput) === 'cancel') {
             $this->cancelChat();
+            return;
+        }
+
+        // Handle Image Upload
+        if(isset($this->photos) && count($this->photos) > 0) {
+            $userInput = isset($userInput) ? $userInput : "";
+            $this->imageUpload($userInput);
             return;
         }
 
@@ -192,19 +199,28 @@ trait ChatSystem
 
         $fileUrl = rtrim($fileUrl, ',');
         $this->order->file_url = $fileUrl;
-        $this->order->order_step = 'confirmed';
-        $this->order->confirmed_at = Carbon::now();
-        $this->order->transaction_status = 'confirmed';
         $this->addMessage('Bot', "Received!, your account will be credited with in a few mins, thanks for trusting TakersPay");
         $this->order->save();
+    }
+
+    private function imageUpload($userInput = '')
+    {
+        $this->validate(['photos.*' => 'image|max:1024']);
+
+        foreach ($this->photos as $photo) {
+            $path = $photo->storePublicly('photos', 'public');
+            $url = Storage::url($path);
+            $sender = 'user';
+            if (Str::contains($this->url, 'tp-admin') && in_array(Auth::user()->role, ['admin', 'super-admin'])) {
+                $sender = 'Bot';
+            }
+            $this->addImage($sender, $url, $userInput);
+        }
     }
 
     private function handleConfirmPurchaseStep(string $userInput)
     {
         if (strtolower($userInput) === 'yes') {
-            $this->order->order_step = 'confirmed';
-            $this->order->confirmed_at = Carbon::now();
-            $this->order->transaction_status = 'confirmed';
             $asset = $this->assetService->getAsset($this->order->asset_id);
             $this->order->save();
             if ($this->order->type == 'buy' && $this->order->asset == 'crypto') {
@@ -220,7 +236,7 @@ trait ChatSystem
             }
             $this->order->save();
 
-            $this->addMessage('Bot', "Note that this Order will be cancelled if there is no payment confirmation after 24hours, thanks for choosing TakersPay");
+            $this->addMessage('Bot', "Please send your payment confirmation to us for verification, Note that this Order will be cancelled if there is no payment confirmation after 24hours, thanks for choosing TakersPay");
         } else {
             $this->order->order_step = 'canceled';
             $this->addMessage('Bot', 'Purchase canceled.');
@@ -241,6 +257,12 @@ trait ChatSystem
         $this->order->save();
         $this->step = null;
         $this->data = [];
+    }
+
+    private function addImage($sender, $imageUrl, $caption)
+    {
+        $this->messages[] = ['sender' => $sender, 'image_url' => $imageUrl, 'timestamp' => Carbon::now(), 'caption' => $caption];
+        $this->updateChatRecordOnDb($this->messages);
     }
 
     private function addMessage($sender, $text)

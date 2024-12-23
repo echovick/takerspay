@@ -30,6 +30,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/reports', fn() => view('admin.reports'))->name('admin.reports');
         Route::get('/audit-trail', fn() => view('admin.audit-trail'))->name('admin.audit-trail');
         Route::get('/order', fn() => view('admin.order-detail'))->name('admin.order-details');
+        Route::get('/settings', fn() => view('admin.settings'))->name('admin.settings');
     });
 });
 

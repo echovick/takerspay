@@ -1,6 +1,9 @@
 <div class="p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
     <div class="flex justify-between items-center mb-4">
-        <h5 class="text-md font-bold text-gray-900 dark:text-white">Order Summary</h5>
+        <div>
+            <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400">{{ $this->order?->transaction_status }}</span><br>
+            <h5 class="text-md font-bold text-gray-900 dark:text-white">Order Summary</h5>
+        </div>
         <form>
             <select id="small" wire:model.live="status" wire:change="updateStatus"
                 class="block w-full p-2 mb-6 text-xs text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">

@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin;
 
+use App\Constants\AssetType;
 use App\Models\Order;
 use App\Traits\AlertMessageHelper;
 use Livewire\Component;
@@ -12,6 +13,8 @@ class OrderDetail extends Component
 
     public $order;
     public $status;
+    public $cryptoWallets;
+    public $bankAccounts;
 
     public function mount()
     {
@@ -19,6 +22,8 @@ class OrderDetail extends Component
         if ($orderId) {
             $this->order = Order::where('reference', $orderId)->first();
         }
+        $this->cryptoWallets = $this->order->user->wallets()->where('type', AssetType::CRYPTO)->get();
+        $this->bankAccounts = $this->order->user->wallets()->where('type', AssetType::FIAT)->get();
     }
 
     public function updateStatus()

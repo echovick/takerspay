@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Takers Pay</title>
-    <link rel="stylesheet" href="{{ asset('build/assets/app-BDKofxze.css') }}">
-    {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
+    {{-- <link rel="stylesheet" href="{{ asset('build/assets/app-BDKofxze.css') }}"> --}}
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
     <style>
         /* Global font styles */
@@ -65,6 +65,19 @@
     @livewireScripts
     @push('script')
         <script>
+            function triggerImageUpload() {
+                document.getElementById('imageUploadInput').click();
+            }
+
+            // Optionally handle the file selection
+            document.getElementById('imageUploadInput').addEventListener('change', function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    console.log('Selected file:', file.name);
+                    // You can now handle the uploaded image (e.g., preview or upload to server)
+                }
+            });
+
             async function fetchCryptoPrices() {
                 const apiUrl =
                     'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,binancecoin,solana&vs_currencies=usd';
@@ -92,7 +105,7 @@
             // Optionally, refresh prices every minute
             setInterval(fetchCryptoPrices, 60000);
         </script>
-        <script src="{{ asset('build/assets/app-BxSjXaiU.js') }}"></script>
+        {{-- <script src="{{ asset('build/assets/app-BxSjXaiU.js') }}"></script> --}}
     </body>
 
     </html>
