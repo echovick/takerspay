@@ -49,7 +49,7 @@
                                     </p>
                                 @endif
                                 @if (isset($item['image_url']))
-                                    <img src="{{ url($item['image_url']) }}" alt="Image">
+                                    <img src="{{ $item['image_url'] }}" alt="Image">
                                 @endif
                             </div>
                             <span class="text-xs font-normal text-gray-500 dark:text-gray-400 mb-3"></span>
@@ -72,7 +72,7 @@
                                     </p>
                                 @endif
                                 @if (isset($item['image_url']))
-                                    <img src="{{ url($item['image_url']) }}" alt="Image">
+                                    <img src="{{ $item['image_url'] }}" alt="Image">
                                 @endif
                             </div>
                             <span class="text-xs font-normal text-gray-500 dark:text-gray-400 text-right mb-3"></span>
