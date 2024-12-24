@@ -35,7 +35,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 Route::get('/artisan/optimize', function () {
-    Artisan::call('optimize');
+    Artisan::call('optimize:clear');
     return 'Application optimized successfully!';
 });
 
