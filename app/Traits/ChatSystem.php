@@ -196,7 +196,8 @@ trait ChatSystem
         $this->validate(['photos.*' => 'image|max:1024']);
 
         foreach ($this->photos as $photo) {
-            $path = $photo->storePublicly('photos', 'public');
+            $result = $photo->storeOnCloudinaryAs('images', $photo->getClientOriginalName());
+            $path = $result->getSecurePath();
             $url = Storage::url($path);
             $fileUrl .= $url . ',';
         }
@@ -212,8 +213,8 @@ trait ChatSystem
         $this->validate(['photos.*' => 'image|max:1024']);
 
         foreach ($this->photos as $photo) {
-            $path = $photo->storePublicly('photos', 'public');
-            $url = Storage::url($path);
+            $result = $photo->storeOnCloudinaryAs('images', $photo->getClientOriginalName());
+            $url = $result->getSecurePath();
             $sender = 'user';
             if (Str::contains($this->url, 'tp-admin') && in_array(Auth::user()->role, ['admin', 'super-admin'])) {
                 $sender = 'Bot';
