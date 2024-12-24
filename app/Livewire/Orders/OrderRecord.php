@@ -4,6 +4,8 @@ namespace App\Livewire\Orders;
 
 use App\Constants\AssetType;
 use App\Models\Order;
+use App\Models\User;
+use App\Models\Wallet;
 use App\Services\AssetService;
 use App\Traits\ChatSystem;
 use Illuminate\Support\Facades\Auth;
@@ -24,6 +26,9 @@ class OrderRecord extends Component
     public $data = [];
     public $ref;
     public $url;
+    public $superAdmin;
+    public $adminAccount;
+    public $adminWallets;
 
     protected AssetService $assetService;
 
@@ -38,6 +43,7 @@ class OrderRecord extends Component
     {
         $this->ref = $_GET['ref'] ?? '';
         $this->url = request()->path();
+        $this->superAdmin = User::where('role', 'super-admin')->first();
         $this->setOrder();
         $this->getAvailableCryptoAssets();
         $this->getAvailableGiftCardAssets();
@@ -48,6 +54,18 @@ class OrderRecord extends Component
         foreach ($this->photos as $photo) {
             $photo->store(path: 'photos');
         }
+    }
+
+    public function getSuperAdminAccount()
+    {
+        $superAdmin = User::where('role', 'super-admin')->first();
+        return Wallet::where('user_id', $superAdmin->id)->where('type', 'fiat')->first();
+    }
+
+    public function getSuperAdminWallet($assetId)
+    {
+        $superAdmin = User::where('role', 'super-admin')->first();
+        return Wallet::where('user_id', $superAdmin->id)->where('asset_id', $assetId)->first();
     }
 
     private function updateChatRecordOnDb(array $chat)

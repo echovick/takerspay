@@ -12,6 +12,10 @@ trait ChatSystem
 {
     public function handleInput()
     {
+        $this->adminAccount = $this->getSuperAdminAccount();
+        if(isset($this->order->asset_id)){
+            $this->adminWallet = $this->getSuperAdminWallet($this->order->asset_id);
+        }
         if (!$this->order && isset($this->ref)) {
             $this->order = $this->order = Order::where('reference', $this->ref)->first();
         } else if (!$this->order && !isset($this->ref)) {
@@ -225,11 +229,11 @@ trait ChatSystem
             $asset = $this->assetService->getAsset($this->order->asset_id);
             $this->order->save();
             if ($this->order->type == 'buy' && $this->order->asset == 'crypto') {
-                $this->addMessage('Bot', "Your purchase order has been taken and confirmed!, Please send ₦{$this->order->naira_price} to (0225644127 @ GTBANK - UCHECHUKWU EZE) with the order reference as narration, you will receive {$this->order->asset_value} dollar worth of {$asset->name} in your saved wallet once your payment is confirmed by us. Please feel free to reach out to us if you encounter any issues or complaints");
+                $this->addMessage('Bot', "Your purchase order has been taken and confirmed!, Please send ₦{$this->order->naira_price} to ({$this->adminAccount?->account_number} @ {$this->adminAccount?->bank_name} - {$this->adminAccount?->account_number}) with the order reference as narration, you will receive {$this->order->asset_value} dollar worth of {$asset->name} in your saved wallet once your payment is confirmed by us. Please feel free to reach out to us if you encounter any issues or complaints");
             } else if ($this->order->type == 'sell' && $this->order->asset == 'crypto') {
-                $this->addMessage('Bot', "Your sell order has been taken and confirmed!, Please send {$this->order->asset_value} dollar worth of {$asset->name} to (0x6B19B8cB4D63B1cFf89F1A3627f6cE1fD6A7C48D), you will receive {$this->order->asset_value} dollar worth of {$asset->name} to the wallet address {$asset->wallet_address}. Please feel free to reach out to us if you encounter any issues or complaints");
+                $this->addMessage('Bot', "Your sell order has been taken and confirmed!, Please send {$this->order->asset_value} dollar worth of {$asset->name} to ({$this?->adminWallet?->crypto_wallet_number}). Please feel free to reach out to us if you encounter any issues or complaints");
             } else if ($this->order->type == 'buy' && $this->order->asset == 'giftcard') {
-                $this->addMessage('Bot', "Your purchase order has been taken and confirmed!, Please send ₦{$this->order->asset_value} to (0225644127 @ GTBANK - UCHECHUKWU EZE) with the order reference as narration, Once your payment is confirmed, you will receive your giftcard. Please feel free to reach out to us if you encounter any issues or complaints");
+                $this->addMessage('Bot', "Your purchase order has been taken and confirmed!, Please send ₦{$this->order->asset_value} to ({$this->adminAccount?->account_number} @ {$this->adminAccount?->bank_name} - {$this->adminAccount?->account_number}) with the order reference as narration, Once your payment is confirmed, you will receive your giftcard. Please feel free to reach out to us if you encounter any issues or complaints");
             } else if ($this->order->type == 'sell' && $this->order->asset == 'giftcard') {
                 $this->addMessage('Bot', "Your sell order has been taken and confirmed!, Please send the back and front picture of your giftcard, once confirmed by us, your naira account will be credited. Please feel free to reach out to us if you encounter any issues or complaints");
                 $this->step = 'upload_gift_card';
