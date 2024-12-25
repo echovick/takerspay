@@ -2,9 +2,7 @@
     <div class="flex flex-row justify-between bg-grey">
         <div class="flex flex-row">
             <a href="{{ route('app.home') }}">
-                @if (Auth::user()->role == 'user')
-                    <x-icons.left-arrow />
-                @endif
+                <x-icons.left-arrow />
             </a>
             <img class="w-7 h-7 ml-2 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
                 alt="Rounded avatar">

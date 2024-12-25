@@ -1,7 +1,8 @@
 <div class="p-6 bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
     <div class="flex justify-between items-center mb-4">
         <div>
-            <span class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400">{{ $this->order?->transaction_status }}</span><br>
+            <span
+                class="bg-blue-100 text-blue-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-blue-400 border border-blue-400">{{ $this->order?->transaction_status }}</span><br>
             <h5 class="text-md font-bold text-gray-900 dark:text-white">Order Summary</h5>
         </div>
         <form>
@@ -50,7 +51,7 @@
                     </td>
                     <td
                         class="py-2 px-4 border-b border-gray-200 dark:border-gray-700 text-sm text-gray-700 dark:text-gray-400">
-                        {{ $order->user->email ??"N/A" }}
+                        {{ $order->user->email ?? 'N/A' }}
                     </td>
                 </tr>
                 <tr>
@@ -60,7 +61,7 @@
                     </td>
                     <td
                         class="py-2 px-4 border-b border-gray-200 dark:border-gray-700 text-sm text-gray-700 dark:text-gray-400">
-                        {{ $order->reference ?? "N/A" }}
+                        {{ $order->reference ?? 'N/A' }}
                     </td>
                 </tr>
                 <tr>
@@ -70,7 +71,7 @@
                     </td>
                     <td
                         class="py-2 px-4 border-b border-gray-200 dark:border-gray-700 text-sm text-gray-700 dark:text-gray-400">
-                        {{ $order->type ?? "N/A" }}
+                        {{ $order->type ?? 'N/A' }}
                     </td>
                 </tr>
                 <tr>
@@ -80,9 +81,21 @@
                     </td>
                     <td
                         class="py-2 px-4 border-b border-gray-200 dark:border-gray-700 text-sm text-gray-700 dark:text-gray-400">
-                        {{ $order->asset ?? "N/A" }}
+                        {{ $order->asset ?? 'N/A' }}
                     </td>
                 </tr>
+                @if ($order->asset = 'giftcard')
+                    <tr>
+                        <td
+                            class="py-2 px-4 border-b border-gray-200 dark:border-gray-700 text-sm font-semibold text-gray-700 dark:text-gray-400">
+                            Gift Card Currency
+                        </td>
+                        <td
+                            class="py-2 px-4 border-b border-gray-200 dark:border-gray-700 text-sm text-gray-700 dark:text-gray-400">
+                            {{ $order->trade_currency ?? 'N/A' }}
+                        </td>
+                    </tr>
+                @endif
                 <tr>
                     <td
                         class="py-2 px-4 border-b border-gray-200 dark:border-gray-700 text-sm font-semibold text-gray-700 dark:text-gray-400">
@@ -90,7 +103,7 @@
                     </td>
                     <td
                         class="py-2 px-4 border-b border-gray-200 dark:border-gray-700 text-sm text-gray-700 dark:text-gray-400">
-                        {{ $order->asset_value ?? "N/A" }}
+                        {{ $order->asset_value ?? 'N/A' }}
                     </td>
                 </tr>
                 <tr>
@@ -100,7 +113,7 @@
                     </td>
                     <td
                         class="py-2 px-4 border-b border-gray-200 dark:border-gray-700 text-sm text-gray-700 dark:text-gray-400">
-                        {{ $order->dollar_price ?? "N/A" }}
+                        {{ $order->dollar_price ?? 'N/A' }}
                     </td>
                 </tr>
                 <tr>
@@ -110,7 +123,7 @@
                     </td>
                     <td
                         class="py-2 px-4 border-b border-gray-200 dark:border-gray-700 text-sm text-gray-700 dark:text-gray-400">
-                        {{ $order->naira_price ?? "N/A" }}
+                        {{ $order->naira_price ?? 'N/A' }}
                     </td>
                 </tr>
                 <tr>
@@ -120,7 +133,7 @@
                     </td>
                     <td
                         class="py-2 px-4 border-b border-gray-200 dark:border-gray-700 text-sm text-gray-700 dark:text-gray-400">
-                        {{ $order->transaction_status ?? "N/A" }}
+                        {{ $order->transaction_status ?? 'N/A' }}
                     </td>
                 </tr>
                 <tr>
@@ -130,7 +143,7 @@
                     </td>
                     <td
                         class="py-2 px-4 border-b border-gray-200 dark:border-gray-700 text-sm text-gray-700 dark:text-gray-400">
-                        {{ $order->confirmed_at ?? "N/A" }}
+                        {{ $order->confirmed_at ?? 'N/A' }}
                     </td>
                 </tr>
                 <tr>
@@ -140,7 +153,7 @@
                     </td>
                     <td
                         class="py-2 px-4 border-b border-gray-200 dark:border-gray-700 text-sm text-gray-700 dark:text-gray-400">
-                        {{ $order->confirmed_at ?? "N/A" }}
+                        {{ $order->confirmed_at ?? 'N/A' }}
                     </td>
                 </tr>
             </tbody>

@@ -22,6 +22,7 @@ class Order extends Model
         'transaction_status',
         'file_url',
         'wallet_id',
+        'trade_currency',
         'confirmed_at',
         'fulfilled_at',
         'order_step'

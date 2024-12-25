@@ -3,31 +3,22 @@ namespace App\Traits;
 
 use App\Constants\AssetType;
 use App\Models\Order;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 
 trait ChatSystem
 {
     public function handleInput()
     {
-        $this->adminAccount = $this->getSuperAdminAccount();
-        if(isset($this->order->asset_id)){
-            $this->adminWallet = $this->getSuperAdminWallet($this->order->asset_id);
-        }
+        $this->setAdminWalletAndAccount();
         if (!$this->order && isset($this->ref)) {
-            $this->order = $this->order = Order::where('reference', $this->ref)->first();
+            $this->order = Order::where('reference', $this->ref)->first();
         } else if (!$this->order && !isset($this->ref)) {
             return;
         }
+
         $userInput = trim($this->input);
         if (isset($userInput) && !empty($userInput)) {
-            $sender = 'user';
-            if (Str::contains($this->url, 'tp-admin') && in_array(Auth::user()->role, ['admin', 'super-admin'])) {
-                $sender = 'Bot';
-            }
-            $this->addMessage($sender, $userInput);
+            $this->addNewMessage($userInput);
         }
 
         // Handle "reset" command
@@ -43,13 +34,20 @@ trait ChatSystem
         }
 
         // Handle Image Upload
-        if(isset($this->photos) && count($this->photos) > 0) {
+        if (isset($this->photos) && count($this->photos) > 0) {
             $userInput = isset($userInput) ? $userInput : "";
             $this->imageUpload($userInput);
             return;
         }
 
         // Chat flow logic
+        $this->handleChatFlow($userInput);
+        $this->input = '';
+        $this->order->save();
+    }
+
+    private function handleChatFlow(string $userInput)
+    {
         switch ($this->step) {
             case null:
                 $this->handleUserFirstPrompt();
@@ -63,6 +61,10 @@ trait ChatSystem
                 $this->handleSelectGiftCardStep($userInput);
                 break;
 
+            case 'select_trade_currency':
+                $this->handleSelectTradeCurrencyStep($userInput);
+                break;
+
             case 'select_currency':
                 $this->handleSelectCryptoStep($userInput);
                 break;
@@ -74,6 +76,7 @@ trait ChatSystem
             case 'confirm_purchase':
                 $this->handleConfirmPurchaseStep($userInput);
                 break;
+
             case 'upload_gift_card':
                 $this->handleGiftCardUploadStep($userInput);
                 break;
@@ -81,9 +84,6 @@ trait ChatSystem
             default:
                 $this->resetChat();
         }
-
-        $this->input = '';
-        $this->order->save();
     }
 
     private function handleUserFirstPrompt()
@@ -109,17 +109,17 @@ trait ChatSystem
             $this->order->order_step = 'select_currency';
             $this->addMessage('Bot', "Which currency would you like to sell? ({$this->cryptoAssets})");
         } elseif ($userInput == '3') {
+            $this->order->asset = AssetType::GIFT_CARD;
+            $this->addMessage('Bot', "Which Card would you like to Buy? ({$this->giftCardAssets})");
+            $this->order->order_step = 'select_gift_card';
             $this->step = 'select_gift_card';
             $this->order->type = 'buy';
-            $this->order->asset = AssetType::GIFT_CARD;
-            $this->order->order_step = 'select_gift_card';
-            $this->addMessage('Bot', "Which Card would you like to Buy? ({$this->giftCardAssets})");
         } elseif ($userInput == '4') {
-            $this->step = 'select_gift_card';
             $this->order->type = 'sell';
             $this->order->asset = AssetType::GIFT_CARD;
-            $this->order->order_step = 'select_gift_card';
             $this->addMessage('Bot', "Which Card would you like to Sell? ({$this->giftCardAssets})");
+            $this->step = 'select_gift_card';
+            $this->order->order_step = 'select_gift_card';
         } elseif ($userInput == '5') {
             $this->resetChat();
         } else {
@@ -152,16 +152,48 @@ trait ChatSystem
             $this->addMessage('Bot', 'Invalid option. Please select from the options above');
             return;
         }
-        $this->step = 'enter_amount';
-        $this->order->order_step = 'enter_amount';
         $this->order->asset_id = $this->data['currency'];
         $this->order->asset = AssetType::GIFT_CARD;
-        $this->addMessage('Bot', "How much worth of {$asset->name} (In Naira) would you like to {$this->order->type}?");
+        $this->addMessage('Bot', "Choose the currency of the Card (1: USD, 2: EUR, 3: GBP, 4: CAD, 5: AUD, 6: CNY, 7: JPY, 8: INR, 9: Reset Chat & Start Over)");
+        $this->step = 'select_trade_currency';
+        $this->order->order_step = 'select_trade_currency';
+        $this->order->save();
+    }
+
+    private function handleSelectTradeCurrencyStep(string $userInput)
+    {
+        if ($userInput == '1') {
+            $this->order->trade_currency = 'USD';
+        } elseif ($userInput == '2') {
+            $this->order->trade_currency = 'EUR';
+        } elseif ($userInput == '3') {
+            $this->order->trade_currency = 'GBP';
+        } elseif ($userInput == '4') {
+            $this->order->trade_currency = 'CAD';
+        } elseif ($userInput == '5') {
+            $this->order->trade_currency = 'AUD';
+        } elseif ($userInput == '6') {
+            $this->order->trade_currency = 'CNY';
+        } elseif ($userInput == '7') {
+            $this->order->trade_currency = 'JPY';
+        } elseif ($userInput == '8') {
+            $this->order->trade_currency = 'INR';
+        } elseif ($userInput == '9') {
+            $this->resetChat();
+        } else {
+            $this->addMessage('Bot', 'Invalid option. Please select from the options above');
+            return;
+        }
+        $asset = $this->assetService->getAsset($this->order->asset_id);
+        $this->step = 'enter_amount';
+        $this->order->order_step = 'enter_amount';
+        $this->addMessage('Bot', "How much worth of {$asset?->name} in ({$this->order->trade_currency}) would you like to {$this->order->type}?");
         $this->order->save();
     }
 
     private function handleEnterAmountStep(string $userInput)
     {
+        $this->sendNewOrderNotificationToAdmin();
         $amount = (float) $userInput;
         if ($amount <= 0) {
             $this->addMessage('Bot', 'Please enter a valid amount.');
@@ -180,7 +212,7 @@ trait ChatSystem
         } else if ($this->order->type == 'sell' && $this->order->asset == 'crypto') {
             $this->addMessage('Bot', "Noted!. at our rate of {$rate}/$ You will receive ₦{$nairaEquivalent} to your naira account after sending {$amount} dollars worth of crypto to the wallet address we will provide after you have confirmed the order. Do you want to proceed? (yes/cancel)");
         } else if ($this->order->type == 'buy' && $this->order->asset == 'giftcard') {
-            $this->addMessage('Bot', "Noted!. You will be required to send {$amount} naira to the account details we will provide after you have confirmed the order. Do you want to proceed? (yes/cancel)");
+            $this->addMessage('Bot', "Noted!. You will be required to send {$amount} {$this->order?->trade_currency} worth of naira to the account details we will provide after you have confirmed the order. Do you want to proceed? (yes/cancel)");
         } else if ($this->order->type == 'sell' && $this->order->asset == 'giftcard') {
             $this->addMessage('Bot', "Noted!. You will be required to send a picture of both sides of your gift card (You can select multiple images at once). Do you want to proceed? (yes/cancel)");
         }
@@ -208,22 +240,6 @@ trait ChatSystem
         $this->order->save();
     }
 
-    private function imageUpload($userInput = '')
-    {
-        $this->validate(['photos.*' => 'image|max:1024']);
-
-        foreach ($this->photos as $photo) {
-            $result = $photo->storeOnCloudinaryAs('images', $photo->getClientOriginalName());
-            $url = $result->getSecurePath();
-            $sender = 'user';
-            if (Str::contains($this->url, 'tp-admin') && in_array(Auth::user()->role, ['admin', 'super-admin'])) {
-                $sender = 'Bot';
-            }
-            $this->addImage($sender, $url, $userInput);
-            $this->photos = null;
-        }
-    }
-
     private function handleConfirmPurchaseStep(string $userInput)
     {
         if (strtolower($userInput) === 'yes') {
@@ -248,32 +264,5 @@ trait ChatSystem
             $this->addMessage('Bot', 'Purchase canceled.');
             $this->resetChat();
         }
-    }
-
-    private function resetChat()
-    {
-        $this->messages[] = ['sender' => 'Bot', 'text' => 'Chat has been reset.', 'timestamp' => Carbon::now()];
-        $this->step = null;
-        $this->data = [];
-    }
-
-    private function cancelChat()
-    {
-        $this->order->transaction_status = 'canceled';
-        $this->order->save();
-        $this->step = null;
-        $this->data = [];
-    }
-
-    private function addImage($sender, $imageUrl, $caption)
-    {
-        $this->messages[] = ['sender' => $sender, 'image_url' => $imageUrl, 'timestamp' => Carbon::now(), 'caption' => $caption];
-        $this->updateChatRecordOnDb($this->messages);
-    }
-
-    private function addMessage($sender, $text)
-    {
-        $this->messages[] = ['sender' => $sender, 'text' => $text, 'timestamp' => Carbon::now()];
-        $this->updateChatRecordOnDb($this->messages);
     }
 }

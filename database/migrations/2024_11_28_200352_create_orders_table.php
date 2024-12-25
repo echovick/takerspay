@@ -26,6 +26,7 @@ return new class extends Migration
             $table->foreignId('wallet_id')->nullable()->constrained()->onDelete('cascade');
             $table->json('chat')->nullable();
             $table->string('order_step')->nullable();
+            $table->string('trade_currency')->nullable();
             $table->timestamp('confirmed_at')->nullable();
             $table->timestamp('fulfilled_at')->nullable();
             $table->timestamps();
