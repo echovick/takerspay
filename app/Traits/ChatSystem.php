@@ -7,6 +7,14 @@ use Illuminate\Support\Facades\Storage;
 
 trait ChatSystem
 {
+    /**
+     * Handles the input for the chat system.
+     *
+     * This function processes the input received from the user and performs
+     * necessary actions based on the input.
+     *
+     * @return void
+     */
     public function handleInput()
     {
         $this->setAdminWalletAndAccount();
@@ -46,6 +54,13 @@ trait ChatSystem
         $this->order->save();
     }
 
+    /**
+     * Handles the chat flow based on the user's input.
+     *
+     * @param string $userInput The input provided by the user.
+     *
+     * @return void
+     */
     private function handleChatFlow(string $userInput)
     {
         switch ($this->step) {
@@ -86,6 +101,14 @@ trait ChatSystem
         }
     }
 
+    /**
+     * Handles the first prompt for the user in the chat system.
+     *
+     * This function is responsible for managing the initial interaction
+     * with the user when they first engage with the chat system.
+     *
+     * @return void
+     */
     private function handleUserFirstPrompt()
     {
         $this->step = 'select_action';
@@ -93,6 +116,13 @@ trait ChatSystem
         $this->addMessage('Bot', 'Hello, Welcome to TakersPay, What would you like to do? (1: Buy Crypto, 2: Sell Crypto, 3: Buy Gift Card, 4: Sell Gift Card, 5: Reset Chat & Start Over)');
     }
 
+    /**
+     * Handles the selection action step based on user input.
+     *
+     * @param string $userInput The input provided by the user.
+     *
+     * @return void
+     */
     private function handleSelectActionStep(string $userInput)
     {
         $this->data['action'] = $userInput;
@@ -128,6 +158,13 @@ trait ChatSystem
         $this->order->save();
     }
 
+    /**
+     * Handles the selection of a cryptocurrency step based on user input.
+     *
+     * @param string $userInput The input provided by the user for selecting a cryptocurrency.
+     *
+     * @return void
+     */
     private function handleSelectCryptoStep(string $userInput)
     {
         $this->data['currency'] = strtoupper($userInput);
@@ -144,6 +181,13 @@ trait ChatSystem
         $this->order->save();
     }
 
+    /**
+     * Handles the selection of a gift card step based on user input.
+     *
+     * @param string $userInput The input provided by the user to select a gift card step.
+     *
+     * @return void
+     */
     private function handleSelectGiftCardStep(string $userInput)
     {
         $this->data['currency'] = strtoupper($userInput);
@@ -160,6 +204,13 @@ trait ChatSystem
         $this->order->save();
     }
 
+    /**
+     * Handles the selection of trade currency step based on user input.
+     *
+     * @param string $userInput The input provided by the user to select the trade currency.
+     *
+     * @return void
+     */
     private function handleSelectTradeCurrencyStep(string $userInput)
     {
         if ($userInput == '1') {
@@ -191,6 +242,13 @@ trait ChatSystem
         $this->order->save();
     }
 
+    /**
+     * Handles the step where the user enters an amount.
+     *
+     * @param string $userInput The input provided by the user.
+     *
+     * @return void
+     */
     private function handleEnterAmountStep(string $userInput)
     {
         $this->sendNewOrderNotificationToAdmin();
@@ -222,7 +280,15 @@ trait ChatSystem
         $this->order->save();
     }
 
-    private function handleGiftCardUploadStep(string $userInput)
+    /**
+     * Handles the upload step for gift cards in the chat system.
+     *
+     * This function manages the process of uploading gift cards, ensuring that
+     * the necessary steps are followed and any required validations are performed.
+     *
+     * @return void
+     */
+    private function handleGiftCardUploadStep()
     {
         $fileUrl = '';
         $this->validate(['photos.*' => 'image|max:1024']);
@@ -240,6 +306,13 @@ trait ChatSystem
         $this->order->save();
     }
 
+    /**
+     * Handles the confirmation step of a purchase process based on user input.
+     *
+     * @param string $userInput The input provided by the user to confirm the purchase.
+     *
+     * @return void
+     */
     private function handleConfirmPurchaseStep(string $userInput)
     {
         if (strtolower($userInput) === 'yes') {

@@ -185,18 +185,42 @@ class OrderRecord extends Component
         $this->data = [];
     }
 
+    /**
+     * Adds an image to the order record.
+     *
+     * @param mixed $sender The sender of the image.
+     * @param string $imageUrl The URL of the image to be added.
+     * @param string $caption The caption for the image.
+     *
+     * @return void
+     */
     private function addImage($sender, $imageUrl, $caption)
     {
         $this->messages[] = ['sender' => $sender, 'image_url' => $imageUrl, 'timestamp' => Carbon::now(), 'caption' => $caption];
         $this->updateChatRecordOnDb($this->messages);
     }
 
+    /**
+     * Adds a message to the order record.
+     *
+     * @param string $sender The sender of the message.
+     * @param string $text The text content of the message.
+     */
     private function addMessage($sender, $text)
     {
         $this->messages[] = ['sender' => $sender, 'text' => $text, 'timestamp' => Carbon::now()];
         $this->updateChatRecordOnDb($this->messages);
     }
 
+    /**
+     * Render the view for the OrderRecord component.
+     *
+     * This method is responsible for rendering the view associated with the
+     * OrderRecord Livewire component. It typically returns a view instance
+     * that represents the component's UI.
+     *
+     * @return \Illuminate\View\View The view instance representing the component's UI.
+     */
     public function render()
     {
         return view('livewire.orders.order-record');
