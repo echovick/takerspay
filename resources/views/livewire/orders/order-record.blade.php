@@ -32,10 +32,10 @@
                 @if ($item['sender'] == 'Bot')
                     <div class="flex items-start gap-2.5 mt-3">
                         <img class="w-8 h-8 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
-                            src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="Bordered avatar">
+                            src="{{ asset('assets/imgs/infinity.png') }}" alt="Bordered avatar">
                         <div class="flex flex-col gap-1 w-full max-w-[320px] ml-1">
                             <div class="flex items-center space-x-2 rtl:space-x-reverse">
-                                <span class="text-sm font-semibold text-gray-900 dark:text-white">TP Admin</span>
+                                <span class="text-sm font-semibold text-gray-900 dark:text-white">Amaka</span>
                                 <span
                                     class="text-xs font-normal text-gray-500 dark:text-gray-400">{{ isset($item['timestamp']) ? $item['timestamp'] : '' }}</span>
                             </div>
@@ -124,11 +124,11 @@
                     @else
                         <div class="flex items-start gap-2.5 mt-3">
                             <img class="w-8 h-8 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
-                                src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
+                                src="{{ asset('assets/imgs/infinity.png') }}"
                                 alt="Bordered avatar">
                             <div class="flex flex-col gap-1 w-full max-w-[320px] ml-1">
                                 <div class="flex items-center space-x-2 rtl:space-x-reverse">
-                                    <span class="text-sm font-semibold text-gray-900 dark:text-white">TP Admin</span>
+                                    <span class="text-sm font-semibold text-gray-900 dark:text-white">Amaka</span>
                                     <span
                                         class="text-xs font-normal text-gray-500 dark:text-gray-400">{{ isset($item['timestamp']) ? $item['timestamp'] : '' }}</span>
                                 </div>
