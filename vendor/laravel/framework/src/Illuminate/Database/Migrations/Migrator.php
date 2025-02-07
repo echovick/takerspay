@@ -2,6 +2,7 @@
 
 namespace Illuminate\Database\Migrations;
 
+use Closure;
 use Illuminate\Console\View\Components\BulletList;
 use Illuminate\Console\View\Components\Info;
 use Illuminate\Console\View\Components\Task;
@@ -49,6 +50,13 @@ class Migrator
      * @var \Illuminate\Database\ConnectionResolverInterface
      */
     protected $resolver;
+
+    /**
+     * The custom connection resolver callback.
+     *
+     * @var \Closure|null
+     */
+    protected static $connectionResolverCallback;
 
     /**
      * The name of the default connection.
@@ -134,7 +142,7 @@ class Migrator
      */
     protected function pendingMigrations($files, $ran)
     {
-        return Collection::make($files)
+        return (new Collection($files))
             ->reject(fn ($file) => in_array($this->getMigrationName($file), $ran))
             ->values()
             ->all();
@@ -169,7 +177,7 @@ class Migrator
 
         $step = $options['step'] ?? false;
 
-        $this->fireMigrationEvent(new MigrationsStarted('up'));
+        $this->fireMigrationEvent(new MigrationsStarted('up', $options));
 
         $this->write(Info::class, 'Running migrations.');
 
@@ -184,7 +192,7 @@ class Migrator
             }
         }
 
-        $this->fireMigrationEvent(new MigrationsEnded('up'));
+        $this->fireMigrationEvent(new MigrationsEnded('up', $options));
 
         $this->output?->writeln('');
     }
@@ -278,7 +286,7 @@ class Migrator
 
         $this->requireFiles($files = $this->getMigrationFiles($paths));
 
-        $this->fireMigrationEvent(new MigrationsStarted('down'));
+        $this->fireMigrationEvent(new MigrationsStarted('down', $options));
 
         $this->write(Info::class, 'Rolling back migrations.');
 
@@ -302,7 +310,7 @@ class Migrator
             );
         }
 
-        $this->fireMigrationEvent(new MigrationsEnded('down'));
+        $this->fireMigrationEvent(new MigrationsEnded('down', $options));
 
         return $rolledBack;
     }
@@ -345,7 +353,7 @@ class Migrator
         // Since the getRan method that retrieves the migration name just gives us the
         // migration name, we will format the names into objects with the name as a
         // property on the objects so that we can pass it to the rollback method.
-        $migrations = collect($migrations)->map(fn ($m) => (object) ['migration' => $m])->all();
+        $migrations = (new Collection($migrations))->map(fn ($m) => (object) ['migration' => $m])->all();
 
         return $this->rollbackMigrations(
             $migrations, $paths, compact('pretend')
@@ -431,7 +439,7 @@ class Migrator
 
         $this->write(
             BulletList::class,
-            collect($this->getQueries($migration, $method))->map(fn ($query) => $query['query'])
+            (new Collection($this->getQueries($migration, $method)))->map(fn ($query) => $query['query'])
         );
     }
 
@@ -536,7 +544,7 @@ class Migrator
      */
     public function getMigrationFiles($paths)
     {
-        return Collection::make($paths)
+        return (new Collection($paths))
             ->flatMap(fn ($path) => str_ends_with($path, '.php') ? [$path] : $this->files->glob($path.'/*_*.php'))
             ->filter()
             ->values()
@@ -641,7 +649,26 @@ class Migrator
      */
     public function resolveConnection($connection)
     {
-        return $this->resolver->connection($connection ?: $this->connection);
+        if (static::$connectionResolverCallback) {
+            return call_user_func(
+                static::$connectionResolverCallback,
+                $this->resolver,
+                $connection ?: $this->connection
+            );
+        } else {
+            return $this->resolver->connection($connection ?: $this->connection);
+        }
+    }
+
+    /**
+     * Set a connection resolver callback.
+     *
+     * @param  \Closure  $callback
+     * @return void
+     */
+    public static function resolveConnectionsUsing(Closure $callback)
+    {
+        static::$connectionResolverCallback = $callback;
     }
 
     /**
