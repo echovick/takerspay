@@ -223,7 +223,7 @@
                         <a href="#" class="mr-4 hover:underline md:mr-6">Contact</a>
                     </li>
                 </ul>
-                <p class="text-gray-500 dark:text-gray-400">Contact us at <a href="mailto:hello@takerspay.com"
+                <p class="text-sm text-purple-600 underline">Contact us at <a href="mailto:hello@takerspay.com"
                         class="hover:underline">hello@takerspay.com</a></p>
                 <span class="text-sm text-gray-500 sm:text-center dark:text-gray-400">© 2024 <a href="#"
                         class="hover:underline">TakersPay</a>. All Rights Reserved.</span>
