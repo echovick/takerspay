@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Takers Pay</title>
-    <link rel="stylesheet" href="{{ asset('build/assets/app-DQ5UNkzH.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/assets/app-C7h_6x81.css ') }}">
     {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
     @livewireStyles
     <style>
@@ -105,7 +105,7 @@
             // Optionally, refresh prices every minute
             setInterval(fetchCryptoPrices, 60000);
         </script>
-        <script src="{{ asset('build/assets/pp-BIKGneNk.js') }}"></script>
+        <script src="{{ asset('build/assets/app-BIKGneNk.js') }}"></script>
     </body>
 
     </html>
