@@ -59,7 +59,7 @@
                         class="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl dark:text-white">
                         The better way to trade Your Crypto & Giftcards</h1>
                     <p class="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400">From
-                        Various Crypto Currencies to Giftcards, traders around the world use TakersPay to simplify their
+                        Various Crypto Currencies to Giftcards, traders all around nigeria use TakersPay to simplify their
                         trading experience</p>
                     <a href="{{ route('register') }}"
                         class="inline-flex items-center justify-center px-5 py-3 mr-3 text-base font-medium text-center text-white rounded-lg bg-primary-1000 hover:bg-primary-1100 focus:ring-4 focus:ring-primary-1200 dark:focus:ring-primary-1000">
