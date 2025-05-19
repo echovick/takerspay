@@ -23,7 +23,7 @@
     <hr class="my-4">
     <livewire:rates-card />
 
-    @if (isset($order) && ($order->transaction_status === 'confirmed' || $order->transaction_status === 'canceled'))
+    @if (isset($order) && ($order->transaction_status === 'completed' || $order->transaction_status === 'canceled'))
         <div class="mb-5 mx-auto">
             <div
                 class="bg-white shadow-lg rounded-lg p-3 border-2 border-primary-1100 flex items-center justify-between max-w-xs sm:max-w-sm mx-auto">
