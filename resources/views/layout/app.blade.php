@@ -15,10 +15,11 @@
     <meta name="googlebot" content="index, follow">
     <meta name="google" content="notranslate">
     <meta name="google-site-verification" content="google-site-verification=google-site-verification">
-    <link rel="stylesheet" href="{{ asset('build/assets/app-C7h_6x81.css ') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('build/assets/app-C7h_6x81.css ') }}"> --}}
     <link rel="icon" href="{{ asset('assets/imgs/takers-pay-logo.png') }}" type="image/x-icon">
-    {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     @livewireStyles
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
         /* Global font styles */
         body {
@@ -55,7 +56,7 @@
 
         .animate-marquee {
             display: inline-block;
-            animation: marquee 10s linear infinite;
+            animation: marquee 20s linear infinite;
         }
 
         @keyframes marquee {
@@ -67,55 +68,25 @@
                 transform: translateX(-100%);
             }
         }
+
+        /* Add smooth scrolling */
+        html {
+            scroll-behavior: smooth;
+        }
+
+        /* Add transitions for interactive elements */
+        a,
+        button {
+            transition: all 0.3s ease;
+        }
     </style>
 </head>
 
 <body>
     @yield('content')
     @livewireScripts
-    @push('script')
-        <script>
-            function triggerImageUpload() {
-                document.getElementById('imageUploadInput').click();
-            }
+    @stack('scripts')
+    <script src="{{ asset('build/assets/app-BIKGneNk.js') }}"></script>
+</body>
 
-            // Optionally handle the file selection
-            document.getElementById('imageUploadInput').addEventListener('change', function(event) {
-                const file = event.target.files[0];
-                if (file) {
-                    console.log('Selected file:', file.name);
-                    // You can now handle the uploaded image (e.g., preview or upload to server)
-                }
-            });
-
-            async function fetchCryptoPrices() {
-                const apiUrl =
-                    'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,binancecoin,solana&vs_currencies=usd';
-
-                try {
-                    const response = await fetch(apiUrl);
-                    const data = await response.json();
-
-                    // Format prices into a string separated by "|"
-                    const prices = Object.entries(data)
-                        .map(([name, value]) => `${name.toUpperCase()}: $${value.usd}`)
-                        .join(' | ');
-
-                    // Inject prices into the marquee
-                    document.getElementById('crypto-prices').textContent = prices;
-                } catch (error) {
-                    console.error('Error fetching crypto prices:', error);
-                    document.getElementById('crypto-prices').textContent = 'Failed to load prices.';
-                }
-            }
-
-            // Fetch and display prices
-            fetchCryptoPrices();
-
-            // Optionally, refresh prices every minute
-            setInterval(fetchCryptoPrices, 60000);
-        </script>
-        <script src="{{ asset('build/assets/app-BIKGneNk.js') }}"></script>
-    </body>
-
-    </html>
+</html>
