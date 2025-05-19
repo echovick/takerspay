@@ -15,9 +15,10 @@
     <meta name="googlebot" content="index, follow">
     <meta name="google" content="notranslate">
     <meta name="google-site-verification" content="google-site-verification=google-site-verification">
-    {{-- <link rel="stylesheet" href="{{ asset('build/assets/app-C7h_6x81.css ') }}"> --}}
     <link rel="icon" href="{{ asset('assets/imgs/takers-pay-logo.png') }}" type="image/x-icon">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="stylesheet" href="{{ asset('build/assets/app-BIKGneNk.js') }}">
+    <link rel="stylesheet" href="{{ asset('build/assets/app-CeuXxEmy.css') }}">
     @livewireStyles
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
