@@ -1791,6 +1791,7 @@ namespace App\Models {
     /**
      * App\Models\Transaction
      *
+     * @property string|null $metadata
      * @property \Illuminate\Support\Carbon|null $updated_at
      * @property \Illuminate\Support\Carbon|null $created_at
      * @property string|null $transaction_description
@@ -1824,6 +1825,7 @@ namespace App\Models {
      * @method static \Illuminate\Database\Eloquent\Builder<Transaction>|Transaction whereTransactionDescription($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Transaction>|Transaction whereCreatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Transaction>|Transaction whereUpdatedAt($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<Transaction>|Transaction whereMetadata($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Transaction>|Transaction newModelQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<Transaction>|Transaction newQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<Transaction>|Transaction query()
@@ -2117,6 +2119,7 @@ namespace App\Models {
      * @property-read int|null $wallets_count
      * @property-read \App\Models\Pin $pin
      * @property-read \App\Models\UserMetaData $metaData
+     * @property-read \App\Models\Wallet $nubanWallet
      * @property-read \Illuminate\Database\Eloquent\Collection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
      * @property-read int|null $notifications_count
      * @method static \Illuminate\Database\Eloquent\Builder<User>|User whereId($value)

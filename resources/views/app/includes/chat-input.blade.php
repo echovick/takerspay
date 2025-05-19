@@ -1,11 +1,11 @@
-<div class="{{ auth()->user()->role == 'user' ? 'fixed z-50 w-full h-16 max-w-lg -translate-x-1/2' : '' }} rounded-full bottom-4 left-1/2 dark:bg-gray-700 dark:border-gray-600">
+<div
+    class="{{ auth()->user()->role == 'user' ? 'fixed z-50 w-full h-16 max-w-lg -translate-x-1/2' : '' }} rounded-full bottom-4 left-1/2 dark:bg-gray-700 dark:border-gray-600">
     <form wire:submit="handleInput">
         <label for="chat" class="sr-only">Your message</label>
         <div class="flex items-center px-2 py-2 rounded-lg bg-gray-50 dark:bg-gray-700">
             <input wire:model.live="photos"
                 class="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                 id="imageUploadInput" accept="image/*" style="display: none;" type="file" multiple>
-
             <!-- Button -->
             <button type="button"
                 class="p-2 text-gray-500 rounded-lg cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-white dark:hover:bg-gray-600"
@@ -23,7 +23,8 @@
             </button>
             @if (isset($photos) && !empty($photos))
                 <div class="mb-4 w-100">
-                    <x-alerts.info-alert> {{ count($photos) }} Images Selected, Click Submit to send </x-alerts.info-alert>
+                    <x-alerts.info-alert> {{ count($photos) }} Images Selected, Click Submit to send
+                    </x-alerts.info-alert>
                 </div>
             @else
                 <input id="chat" rows="1" wire:model.live="input"

@@ -22,9 +22,36 @@
     </div>
     <hr class="my-4">
     <livewire:rates-card />
-    <p class="text-center text-[10px] mb-5 w-100 text-slate-400 mx-auto">To ensure your order is fufilled, please
-        provide
-        accurate responses, if you have any issues click the icon above to report. Say Hello to start the chat</p>
+
+    @if (isset($order) && ($order->transaction_status === 'confirmed' || $order->transaction_status === 'canceled'))
+        <div class="mb-5 mx-auto">
+            <div
+                class="bg-white shadow-lg rounded-lg p-3 border-2 border-primary-1100 flex items-center justify-between max-w-xs sm:max-w-sm mx-auto">
+                <div class="flex items-center space-x-3">
+                    <div class="bg-primary-1100 p-2 rounded-full">
+                        <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2">
+                            </path>
+                        </svg>
+                    </div>
+                    <div class="px-3">
+                        <p class="text-sm font-semibold text-gray-800">Receipt Available</p>
+                        <p class="text-xs text-gray-600">Click to view or download</p>
+                    </div>
+                </div>
+                <a href="{{ route('receipt.download', $order->reference) }}"
+                    class="bg-primary-1100 hover:bg-primary-1200 text-white text-xs py-1 px-3 rounded-full ml-2">
+                    Download
+                </a>
+            </div>
+        </div>
+    @else
+        <p class="text-center text-[10px] mb-5 w-100 text-slate-400 mx-auto">To ensure your order is fufilled, please
+            provide
+            accurate responses, if you have any issues click the icon above to report. Say Hello to start the chat</p>
+    @endif
 
     <div class="bg-grey pb-10">
         @if (is_array($messages) && count($messages) > 0)
@@ -124,8 +151,7 @@
                     @else
                         <div class="flex items-start gap-2.5 mt-3">
                             <img class="w-8 h-8 p-1 rounded-full ring-2 ring-gray-300 dark:ring-gray-500"
-                                src="{{ asset('assets/imgs/infinity.png') }}"
-                                alt="Bordered avatar">
+                                src="{{ asset('assets/imgs/infinity.png') }}" alt="Bordered avatar">
                             <div class="flex flex-col gap-1 w-full max-w-[320px] ml-1">
                                 <div class="flex items-center space-x-2 rtl:space-x-reverse">
                                     <span class="text-sm font-semibold text-gray-900 dark:text-white">Amaka</span>
@@ -145,5 +171,11 @@
         @endif
     </div>
 
-    @include('app.includes.chat-input')
+    @if (isset($order) && $order->transaction_status !== 'canceled' && $order->transaction_status !== 'completed')
+        @include('app.includes.chat-input')
+    @else
+        <div class="mb-4 w-100">
+            <x-alerts.info-alert>This chat is no longer active</x-alerts.info-alert>
+        </div>
+    @endif
 </div>

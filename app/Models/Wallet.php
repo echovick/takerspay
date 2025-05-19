@@ -19,6 +19,13 @@ class Wallet extends Model
         'bank_name',
         'account_name',
         'status',
+        'balance',
+        'bank_id',
+        'bank_slug',
+        'currency',
+        'assigned_at',
+        'customer_id',
+        'account_creation_response_object',
     ];
 
     // Relationships

@@ -3,6 +3,7 @@
 /public/storage
 /storage/*.key
 /storage/pail
+/template
 .env
 .env.backup
 .env.production

@@ -75,6 +75,11 @@ class User extends Authenticatable
         return Wallet::where('user_id', $this->attributes['id'])->where('type', 'fiat')->get();
     }
 
+    public function nubanWallet()
+    {
+        return $this->hasOne(Wallet::class, 'user_id', 'id')->where('type', 'nuban');
+    }
+
     public function cryptoWallets()
     {
         return Wallet::where('user_id', $this->attributes['id'])->where('type', 'crypto')->get();

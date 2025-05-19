@@ -6,7 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Takers Pay</title>
+    <meta name="description"
+        content="Takers Pay - Your trusted platform for secure and seamless cryptocurrency trading. Buy, sell and trade crypto with our user-friendly digital trading platform.">
+    <meta name="keywords"
+        content="Takers Pay, cryptocurrency trading, crypto exchange, bitcoin, ethereum, digital assets, secure trading, crypto wallet">
+    <meta name="author" content="Takers Pay">
+    <meta name="robots" content="index, follow">
+    <meta name="googlebot" content="index, follow">
+    <meta name="google" content="notranslate">
+    <meta name="google-site-verification" content="google-site-verification=google-site-verification">
     <link rel="stylesheet" href="{{ asset('build/assets/app-C7h_6x81.css ') }}">
+    <link rel="icon" href="{{ asset('assets/imgs/takers-pay-logo.png') }}" type="image/x-icon">
     {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
     @livewireStyles
     <style>

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ReceiptController;
 use App\Http\Middleware\AdminUser;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
@@ -18,10 +19,12 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/order', fn() => view('app.order'))->name('app.order');
     Route::get('/settings', fn() => view('app.settings'))->name('app.settings');
     Route::get('/profile', fn() => view('app.profile'))->name('app.profile');
+    Route::get('/receipt/{reference}', [ReceiptController::class, 'downloadReceipt'])->name('receipt.download');
 
     Route::middleware([AdminUser::class])->prefix('tp-admin')->group(function () {
         Route::get('/', fn() => view('admin.dashboard'))->name('admin.dashboard');
         Route::get('/user-management', fn() => view('admin.user-management'))->name('admin.user-management');
+        Route::get('/user/{id}', fn() => view('admin.user-details'))->name('admin.user-details');
         Route::get('/order-management', fn() => view('admin.order-management'))->name('admin.order-management');
         Route::get('/wallet-management', fn() => view('admin.wallet-management'))->name('admin.wallet-management');
         Route::get('/admin-management', fn() => view('admin.admin-management'))->name('admin.admin-management');
@@ -31,6 +34,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/audit-trail', fn() => view('admin.audit-trail'))->name('admin.audit-trail');
         Route::get('/order', fn() => view('admin.order-detail'))->name('admin.order-details');
         Route::get('/settings', fn() => view('admin.settings'))->name('admin.settings');
+        Route::get('/user-wallets', fn() => view('admin.user-wallets'))->name('admin.user-wallets');
+        Route::get('/transaction-history', fn() => view('admin.transaction-history'))->name('admin.transaction-history');
+        Route::get('/tickets-management', fn() => view('admin.tickets-management'))->name('admin.tickets-management');
     });
 });
 
