@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -25,7 +24,7 @@ class Order extends Model
         'trade_currency',
         'confirmed_at',
         'fulfilled_at',
-        'order_step'
+        'order_step',
     ];
 
     protected $dates = [
@@ -34,7 +33,7 @@ class Order extends Model
     ];
 
     protected $cast = [
-        'chat' => 'json'
+        'chat' => 'json',
     ];
 
     // Relationships
@@ -50,7 +49,7 @@ class Order extends Model
 
     public function assetInfo()
     {
-        return $this->belongsTo(Asset::class);
+        return $this->belongsTo(Asset::class, 'asset_id');
     }
 
 }
