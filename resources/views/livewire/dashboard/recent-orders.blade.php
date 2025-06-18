@@ -58,9 +58,15 @@
                                     {{ $transactionDate }}
                                 </p>
                             </div>
+                            @php
+                                $assetValue =
+                                    $order?->type == 'buy'
+                                        ? $order?->asset_value * $order?->assetInfo?->naira_buy_rate
+                                        : $order?->asset_value * $order?->assetInfo?->naira_sell_rate;
+                            @endphp
                             <div
                                 class="inline-flex text-sm items-center text-base font-semibold text-gray-900 dark:text-white">
-                                &#8358;{{ number_format($order->naira_price, 2) ?? 0 }}
+                                &#8358;{{ number_format($assetValue, 2) ?? 0 }}
                             </div>
                         </div>
                     </li>

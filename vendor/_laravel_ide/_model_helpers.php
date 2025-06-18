@@ -2739,6 +2739,8 @@ namespace App\Models {
      * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Order> $orders
      * @property-read int|null $orders_count
      * @property-read \App\Models\Asset $asset
+     * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Transaction> $transactions
+     * @property-read int|null $transactions_count
      * @method static \Illuminate\Database\Eloquent\Builder<Wallet>|Wallet whereId($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Wallet>|Wallet whereUserId($value)
      * @method static \Illuminate\Database\Eloquent\Builder<Wallet>|Wallet whereAssetId($value)
