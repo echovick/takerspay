@@ -10,7 +10,7 @@
     @include('admin.includes.side-bar')
 
     <!-- Mobile-optimized Content Area with web compatibility -->
-    <main class="p-2 md:p-4 md:ml-64 h-auto pt-20 bg-gradient-to-br from-gray-50 to-blue-50">
+    <main class="p-2 md:p-4 md:ml-60 h-auto pt-20 bg-gradient-to-br from-gray-50 to-blue-50">
         <div class="container mx-auto max-w-7xl">
             <!-- Page Header -->
             <div class="bg-white rounded-xl shadow-lg mb-6 overflow-hidden animate__animated animate__fadeIn">

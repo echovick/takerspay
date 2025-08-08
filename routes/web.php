@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ReceiptController;
 use App\Http\Middleware\AdminUser;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
@@ -11,6 +12,14 @@ Route::get('/login', fn() => view('auth.login'))->name('login');
 Route::get('/register', fn() => view('auth.register'))->name('register');
 Route::get('/forgot-password', fn() => view('auth.forgot-password'))->name('forgot-password');
 Route::get('/reset-password', fn() => view('auth.reset-password'))->name('reset-password');
+
+// Logout route
+Route::post('/logout', function () {
+    Auth::logout();
+    request()->session()->invalidate();
+    request()->session()->regenerateToken();
+    return redirect('/login');
+})->name('logout');
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/home', fn() => view('app.home'))->name('app.home');

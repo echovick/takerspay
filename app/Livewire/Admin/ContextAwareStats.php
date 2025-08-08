@@ -12,8 +12,9 @@ class ContextAwareStats extends Component
 
     protected $listeners = ['contextChanged' => 'updateContext'];
 
-    public function mount()
+    public function mount($context = 'all')
     {
+        $this->context = $context;
         $this->fetchStats();
     }
 

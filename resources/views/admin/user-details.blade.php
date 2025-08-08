@@ -36,7 +36,7 @@
     <!-- Modal Backdrop -->
     <div id="modal-backdrop" class="fixed inset-0 bg-gray-500 bg-opacity-75 z-40 hidden"></div>
     <!-- Mobile-optimized Content Area with web compatibility -->
-    <main class="p-2 md:p-4 md:ml-64 h-auto pt-20 bg-gradient-to-br from-gray-50 to-blue-50">
+    <main class="p-2 md:p-4 md:ml-60 h-auto pt-20 bg-gradient-to-br from-gray-50 to-blue-50">
         <div class="container mx-auto max-w-7xl">
             <!-- User Details Header - Redesigned -->
             <div class="bg-white rounded-xl shadow-lg mb-8 overflow-hidden animate__animated animate__fadeIn">

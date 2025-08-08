@@ -16,17 +16,10 @@
             </div>
             <div class="text-right">
                 <p class="text-sm font-medium text-gray-800">
-                    @if ($asset['type'] == 'crypto')
-                        ${{ number_format($asset['dollar_rate'], 2) }}
-                    @else
-                        ₦{{ number_format($asset['naira_rate'], 2) }}
-                    @endif
+                    ₦{{ number_format($asset['naira_sell_rate'], 2) }}
                 </p>
                 <p class="text-xs text-gray-500">
-                    <span
-                        class="inline-flex items-center px-2 py-0.5 rounded-full text-xs {{ $asset['status'] == 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
-                        {{ ucfirst($asset['status']) }}
-                    </span>
+                    Per Dollar
                 </p>
             </div>
         </div>
