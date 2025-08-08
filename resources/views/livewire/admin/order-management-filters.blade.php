@@ -50,10 +50,46 @@
         </div>
     </div>
 
-    <!-- Info Messages -->
+    <!-- Success/Error Messages -->
+    @if(session()->has('success'))
+        <div class="mt-4 bg-green-500 text-white px-4 py-3 rounded-lg text-sm">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if(session()->has('error'))
+        <div class="mt-4 bg-red-500 text-white px-4 py-3 rounded-lg text-sm">
+            {{ session('error') }}
+        </div>
+    @endif
+
     @if(session()->has('info'))
         <div class="mt-4 bg-blue-500 text-white px-4 py-3 rounded-lg text-sm">
             {{ session('info') }}
         </div>
     @endif
 </div>
+
+<script>
+document.addEventListener('livewire:initialized', function() {
+    Livewire.on('downloadCsv', function(data) {
+        const csvContent = data[0].content;
+        const filename = data[0].filename;
+        
+        // Create blob and download link
+        const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+        const link = document.createElement('a');
+        
+        if (link.download !== undefined) {
+            const url = URL.createObjectURL(blob);
+            link.setAttribute('href', url);
+            link.setAttribute('download', filename);
+            link.style.visibility = 'hidden';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        }
+    });
+});
+</script>

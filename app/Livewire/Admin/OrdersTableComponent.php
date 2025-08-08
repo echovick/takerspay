@@ -29,9 +29,9 @@ class OrdersTableComponent extends Component
     public function updateFilters($filters)
     {
         $this->search = $filters['search'] ?? '';
-        $this->statusFilter = $filters['statusFilter'] ?? 'all';
-        $this->assetFilter = $filters['assetFilter'] ?? 'all';
-        $this->typeFilter = $filters['typeFilter'] ?? 'all';
+        $this->statusFilter = $filters['statusFilter'] ?? '';
+        $this->assetFilter = $filters['assetFilter'] ?? '';
+        $this->typeFilter = $filters['typeFilter'] ?? '';
         $this->resetPage();
     }
 
@@ -92,17 +92,17 @@ class OrdersTableComponent extends Component
         }
 
         // Apply status filter
-        if ($this->statusFilter !== 'all') {
+        if ($this->statusFilter !== '' && $this->statusFilter !== 'all') {
             $query->where('transaction_status', $this->statusFilter);
         }
 
         // Apply asset filter
-        if ($this->assetFilter !== 'all') {
+        if ($this->assetFilter !== '' && $this->assetFilter !== 'all') {
             $query->where('asset', $this->assetFilter);
         }
 
         // Apply type filter
-        if ($this->typeFilter !== 'all') {
+        if ($this->typeFilter !== '' && $this->typeFilter !== 'all') {
             $query->where('type', $this->typeFilter);
         }
 
