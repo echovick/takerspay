@@ -18,7 +18,7 @@
     <link rel="icon" href="{{ asset('assets/imgs/takers-pay-logo.png') }}" type="image/x-icon">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('build/assets/app-BIKGneNk.js') }}">
-    <link rel="stylesheet" href="{{ asset('build/assets/app-YcvK4Deo.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/assets/app-BYw1X5l1.css') }}">
     @livewireStyles
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
     <style>
