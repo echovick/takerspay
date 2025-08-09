@@ -20,27 +20,27 @@ class AppContextController extends Controller
 
         // Base statistics - always included
         $stats = [
-            'total_users'    => User::count(),
-            'active_users'   => User::where('status', 'active')->count(),
+            'total_users'     => User::count(),
+            'active_users'    => User::where('status', 'active')->count(),
             'new_users_today' => User::whereDate('created_at', today())->count(),
         ];
 
         // Context-specific statistics
         if ($context === 'all' || $context === 'crypto') {
-            $stats['total_orders']             = Order::count();
-            $stats['pending_orders']           = Order::where('transaction_status', 'pending')->count();
-            $stats['completed_orders']         = Order::where('transaction_status', 'completed')->count();
-            $stats['crypto_wallet_balance']    = Wallet::where('type', 'crypto')->sum('balance');
-            $stats['fiat_wallet_balance']      = Wallet::where('type', 'fiat')->sum('balance');
-            $stats['total_assets']             = Asset::count();
-            $stats['active_assets']            = Asset::where('available_units', '>', 0)->count();
-            $stats['orders_today']             = Order::whereDate('created_at', today())->count();
-            $stats['total_order_value']        = Order::sum('naira_price');
-            $stats['avg_order_value']          = Order::avg('naira_price') ?? 0;
+            $stats['total_orders']          = Order::count();
+            $stats['pending_orders']        = Order::where('transaction_status', 'pending')->count();
+            $stats['completed_orders']      = Order::where('transaction_status', 'completed')->count();
+            $stats['crypto_wallet_balance'] = Wallet::where('type', 'crypto')->sum('balance');
+            $stats['fiat_wallet_balance']   = Wallet::where('type', 'nuban')->sum('balance');
+            $stats['total_assets']          = Asset::count();
+            $stats['active_assets']         = Asset::where('available_units', '>', 0)->count();
+            $stats['orders_today']          = Order::whereDate('created_at', today())->count();
+            $stats['total_order_value']     = Order::sum('naira_price');
+            $stats['avg_order_value']       = Order::avg('naira_price') ?? 0;
         }
 
         if ($context === 'all' || $context === 'finance') {
-            $stats['total_transactions']      = Transaction::count();
+            $stats['total_transactions']       = Transaction::count();
             $stats['nuban_wallet_balance']     = Wallet::where('type', 'nuban')->sum('balance');
             $stats['pending_transactions']     = Transaction::where('status', 'pending')->count();
             $stats['successful_transactions']  = Transaction::where('status', 'success')->count();
@@ -79,7 +79,7 @@ class AppContextController extends Controller
                 ->map(function ($order) {
                     $userName = $order->user->metaData?->first_name . ' ' . $order->user->metaData?->last_name;
                     $userName = trim($userName) ?: $order->user->email;
-                    
+
                     return [
                         'type'        => 'order',
                         'id'          => $order->id,
@@ -108,23 +108,23 @@ class AppContextController extends Controller
                     return $transaction->wallet && $transaction->wallet->user;
                 })
                 ->map(function ($transaction) {
-                    $user = $transaction->wallet->user;
+                    $user     = $transaction->wallet->user;
                     $userName = $user->metaData?->first_name . ' ' . $user->metaData?->last_name;
                     $userName = trim($userName) ?: $user->email;
-                    
+
                     return [
-                        'type'        => 'transaction',
-                        'id'          => $transaction->id,
-                        'reference'   => $transaction->transaction_reference,
-                        'user'        => $userName,
-                        'user_email'  => $user->email,
-                        'amount'      => $transaction->amount,
+                        'type'             => 'transaction',
+                        'id'               => $transaction->id,
+                        'reference'        => $transaction->transaction_reference,
+                        'user'             => $userName,
+                        'user_email'       => $user->email,
+                        'amount'           => $transaction->amount,
                         'transaction_type' => $transaction->transaction_type,
-                        'status'      => $transaction->status,
-                        'created_at'  => $transaction->created_at,
-                        'description' => $transaction->transaction_description ?? ucfirst($transaction->transaction_type) . ' transaction',
-                        'currency'    => $transaction->currency ?? 'NGN',
-                        'fee'         => $transaction->fee ?? 0,
+                        'status'           => $transaction->status,
+                        'created_at'       => $transaction->created_at,
+                        'description'      => $transaction->transaction_description ?? ucfirst($transaction->transaction_type) . ' transaction',
+                        'currency'         => $transaction->currency ?? 'NGN',
+                        'fee'              => $transaction->fee ?? 0,
                     ];
                 });
 
@@ -140,7 +140,7 @@ class AppContextController extends Controller
                 ->map(function ($user) {
                     $userName = $user->metaData?->first_name . ' ' . $user->metaData?->last_name;
                     $userName = trim($userName) ?: $user->email;
-                    
+
                     return [
                         'type'        => 'user_registration',
                         'id'          => $user->id,
