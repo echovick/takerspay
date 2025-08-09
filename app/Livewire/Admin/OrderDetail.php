@@ -18,12 +18,15 @@ class OrderDetail extends Component
 
     public function mount()
     {
-        $orderId = $_GET['ref'] ?? '';
+        $orderId = request()->get('ref', '');
         if ($orderId) {
-            $this->order = Order::where('reference', $orderId)->first();
+            $this->order = Order::where('reference', $orderId)->with('user.wallets')->first();
+            
+            if ($this->order && $this->order->user) {
+                $this->cryptoWallets = $this->order->user->wallets()->where('type', 'crypto')->get();
+                $this->bankAccounts = $this->order->user->wallets()->where('type', 'fiat')->get();
+            }
         }
-        $this->cryptoWallets = $this->order->user->wallets()->where('type', AssetType::CRYPTO)->get();
-        $this->bankAccounts = $this->order->user->wallets()->where('type', AssetType::FIAT)->get();
     }
 
     public function updateStatus()

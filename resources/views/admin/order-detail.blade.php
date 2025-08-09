@@ -1,131 +1,167 @@
 @extends('layout.app')
 
 @section('content')
-    <!-- Add Animate.css for animations -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
-
     @include('admin.includes.nav-bar')
-
-    <!-- Sidebar -->
     @include('admin.includes.side-bar')
 
-    <!-- Mobile-optimized Content Area with web compatibility -->
-    <main class="p-2 md:p-4 md:ml-60 h-auto pt-20 bg-gradient-to-br from-gray-50 to-blue-50">
-        <div class="container mx-auto max-w-7xl">
+    @php
+        $orderRef = request()->get('ref');
+        $order = App\Models\Order::where('reference', $orderRef)->first();
+    @endphp
+
+    <!-- Main Content - Responsive for both Mobile and Desktop -->
+    <main class="p-[25px] md:ml-60 pt-[100px] bg-gray-50 min-h-screen">
+        <div class="max-w-7xl mx-auto">
             <!-- Page Header -->
-            <div class="bg-white rounded-xl shadow-lg mb-6 overflow-hidden animate__animated animate__fadeIn">
-                <div class="relative overflow-hidden">
-                    <!-- Background with proper gradient and height -->
-                    <div class="h-28 bg-gradient-to-r from-blue-600 via-indigo-600 to-violet-600">
-                        <!-- Decorative elements properly positioned -->
-                        <div class="absolute top-5 right-10 h-24 w-24 rounded-full bg-white opacity-10"></div>
-                        <div class="absolute bottom-5 left-20 h-32 w-32 rounded-full bg-white opacity-5"></div>
-                        <div class="absolute -bottom-16 -right-8 h-48 w-48 rounded-full bg-indigo-500 opacity-10"></div>
-                    </div>
-                </div>
-
-                <!-- Content section with proper spacing -->
-                <div class="p-6">
-                    <div class="flex flex-col md:flex-row md:items-center justify-between">
-                        <div>
-                            <h1 class="text-2xl md:text-3xl font-bold text-gray-800">Order Details</h1>
-                            <p class="mt-1 text-gray-600">Order Reference: <span
-                                    class="font-medium">{{ $_GET['ref'] }}</span></p>
-                        </div>
-
-                        <!-- Action Buttons -->
-                        <div class="mt-4 md:mt-0 flex flex-col md:flex-row gap-2">
-                            <button
-                                class="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                </svg>
-                                Approve Order
-                            </button>
-
-                            <button
-                                class="px-4 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 flex items-center">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none"
-                                    viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                                </svg>
-                                Export
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Breadcrumb -->
-            <nav class="flex px-5 py-3 text-gray-700 border border-gray-200 rounded-lg bg-white shadow-md mb-6 animate__animated animate__fadeIn animate__delay-1s"
-                aria-label="Breadcrumb">
-                <ol class="inline-flex items-center space-x-1 md:space-x-2 rtl:space-x-reverse">
-                    <li class="inline-flex items-center">
-                        <a href="{{ route('admin.dashboard') }}"
-                            class="inline-flex items-center text-sm font-medium text-gray-700 hover:text-blue-600">
-                            <svg class="w-3 h-3 me-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg"
-                                fill="currentColor" viewBox="0 0 20 20">
-                                <path
-                                    d="m19.707 9.293-2-2-7-7a1 1 0 0 0-1.414 0l-7 7-2 2a1 1 0 0 0 1.414 1.414L2 10.414V18a2 2 0 0 0 2 2h3a1 1 0 0 0 1-1v-4a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v4a1 1 0 0 0 1 1h3a2 2 0 0 0 2-2v-7.586l.293.293a1 1 0 0 0 1.414-1.414Z" />
+            <div class="mb-6">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
+                    <div class="flex items-center space-x-3 mb-2 sm:mb-0">
+                        <a href="{{ route('admin.order-management') }}" class="text-gray-400 hover:text-gray-600">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
                             </svg>
-                            Dashboard
                         </a>
-                    </li>
-                    <li>
-                        <div class="flex items-center">
-                            <svg class="rtl:rotate-180 block w-3 h-3 mx-1 text-gray-400" aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="m1 9 4-4-4-4" />
-                            </svg>
-                            <a href="{{ route('admin.order-management') }}"
-                                class="ms-1 text-sm font-medium text-gray-700 hover:text-blue-600 md:ms-2">
-                                Orders
-                            </a>
-                        </div>
-                    </li>
-                    <li aria-current="page">
-                        <div class="flex items-center">
-                            <svg class="rtl:rotate-180 w-3 h-3 mx-1 text-gray-400" aria-hidden="true"
-                                xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="m1 9 4-4-4-4" />
-                            </svg>
-                            <span class="ms-1 text-sm font-medium text-gray-500 md:ms-2">{{ $_GET['ref'] }}</span>
-                        </div>
-                    </li>
-                </ol>
-            </nav>
-
-            <!-- Order Detail Content -->
-            <div class="flex flex-wrap animate__animated animate__fadeIn animate__delay-2s">
-                <!-- Order Details Section -->
-                <div class="w-full md:w-3/5 p-2 md:pr-4">
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden">
-                        <div class="bg-gradient-to-r from-gray-50 to-blue-50 border-b border-gray-200 px-6 py-4">
-                            <h2 class="text-lg font-medium text-gray-900">Order Information</h2>
-                        </div>
-                        <div class="p-4">
-                            <livewire:admin.order-detail />
-                        </div>
+                        <h1 class="text-xl md:text-2xl font-bold text-gray-900">
+                            Order Details
+                        </h1>
+                        @if($order)
+                            @php 
+                                $statusColors = [
+                                    'pending' => 'bg-yellow-100 text-yellow-800',
+                                    'processing' => 'bg-blue-100 text-blue-800',
+                                    'completed' => 'bg-green-100 text-green-800',
+                                    'confirmed' => 'bg-green-100 text-green-800',
+                                    'cancelled' => 'bg-red-100 text-red-800',
+                                    'canceled' => 'bg-red-100 text-red-800',
+                                ];
+                                $statusColor = $statusColors[$order->transaction_status] ?? 'bg-gray-100 text-gray-800';
+                            @endphp
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium {{ $statusColor }}">
+                                <span class="w-1.5 h-1.5 mr-1.5 bg-current rounded-full opacity-75"></span>
+                                {{ ucfirst($order->transaction_status) }}
+                            </span>
+                        @endif
+                    </div>
+                    <div class="text-sm text-gray-600">
+                        <span class="hidden sm:inline">Ref: {{ $orderRef }} • </span>
+                        @if($order)
+                            Ordered {{ $order->created_at->format('M d, Y') }}
+                        @endif
                     </div>
                 </div>
-
-                <!-- Order Chat Section -->
-                <div class="w-full md:w-2/5 p-2 md:pl-2">
-                    <div class="bg-white rounded-lg shadow-md overflow-hidden h-full">
-                        <div class="bg-gradient-to-r from-gray-50 to-indigo-50 border-b border-gray-200 px-6 py-4">
-                            <h2 class="text-lg font-medium text-gray-900">Order Communication</h2>
-                        </div>
-                        <div class="h-[505px] overflow-y-auto p-4">
-                            <livewire:orders.order-record />
-                        </div>
-                    </div>
-                </div>
+                <p class="text-sm text-gray-600">Manage order details and communications</p>
             </div>
+
+            @if($order)
+                <!-- Order Details Section -->
+                <div class="mb-6">
+                    <livewire:admin.order-detail-info-component :order="$order" />
+                </div>
+
+                <!-- Order Actions Section -->
+                <div class="mb-6">
+                    <livewire:admin.order-actions-component :order="$order" />
+                </div>
+
+                <!-- Order Communication Section -->
+                <div class="bg-white rounded-lg shadow-sm border border-gray-100 overflow-hidden">
+                    <div class="bg-gradient-to-r from-purple-500 to-indigo-600 px-4 sm:px-6 py-4">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center">
+                                <div class="bg-white/20 p-2 rounded-full">
+                                    <svg class="h-5 w-5 sm:h-6 sm:w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-3.582 8-8 8a8.001 8.001 0 01-7.7-6M3 12c0-4.418 3.582-8 8-8s8 3.582 8 8-3.582 8-8 8c-4.418 0-8-3.582-8-8z"></path>
+                                    </svg>
+                                </div>
+                                <div class="ml-3">
+                                    <h2 class="text-sm sm:text-lg font-medium text-white">Order Communication</h2>
+                                    <p class="text-xs text-white/80 hidden sm:block">Chat and updates for this order</p>
+                                </div>
+                            </div>
+                            <div class="flex items-center space-x-2">
+                                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-white/20 text-white">
+                                    <span class="w-2 h-2 mr-1 bg-green-400 rounded-full animate-pulse"></span>
+                                    Active
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Chat Container -->
+                    <div class="relative">
+                        <div class="h-[400px] sm:h-[500px] lg:h-[600px] overflow-y-auto bg-gray-50 p-3 sm:p-4">
+                            <div class="max-w-none">
+                                <livewire:orders.order-record />
+                            </div>
+                        </div>
+                        
+                        <!-- Chat Input Area (placeholder for future enhancement) -->
+                        <div class="border-t border-gray-200 bg-white p-3 sm:p-4">
+                            <div class="flex items-center space-x-2 sm:space-x-3">
+                                <button type="button" class="flex-shrink-0 p-2 text-gray-400 hover:text-gray-600 rounded-full hover:bg-gray-100">
+                                    <svg class="h-4 w-4 sm:h-5 sm:w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"></path>
+                                    </svg>
+                                </button>
+                                <div class="flex-1 relative">
+                                    <input type="text" 
+                                           placeholder="Type a message..." 
+                                           class="w-full px-3 sm:px-4 py-2 pr-10 text-sm border border-gray-300 rounded-full focus:ring-indigo-500 focus:border-indigo-500 bg-gray-50" 
+                                           disabled>
+                                    <button type="button" class="absolute right-2 top-1/2 transform -translate-y-1/2 p-1 text-gray-400">
+                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h1m4 0h1m-6 4h8m2-10a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                                <button type="button" class="flex-shrink-0 inline-flex items-center px-3 sm:px-4 py-2 border border-transparent text-sm font-medium rounded-full shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" disabled>
+                                    <svg class="h-4 w-4 sm:mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                                    </svg>
+                                    <span class="hidden sm:inline">Send</span>
+                                </button>
+                            </div>
+                            
+                            <!-- Quick Actions -->
+                            <div class="mt-3 flex flex-wrap gap-2">
+                                <button type="button" class="inline-flex items-center px-2 sm:px-3 py-1 text-xs font-medium rounded-full text-indigo-600 bg-indigo-50 hover:bg-indigo-100">
+                                    <svg class="h-3 w-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    Approve Order
+                                </button>
+                                <button type="button" class="inline-flex items-center px-2 sm:px-3 py-1 text-xs font-medium rounded-full text-yellow-600 bg-yellow-50 hover:bg-yellow-100">
+                                    <svg class="h-3 w-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    Request Info
+                                </button>
+                                <button type="button" class="inline-flex items-center px-2 sm:px-3 py-1 text-xs font-medium rounded-full text-red-600 bg-red-50 hover:bg-red-100">
+                                    <svg class="h-3 w-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                    </svg>
+                                    Cancel Order
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @else
+                <!-- Order Not Found -->
+                <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-8 text-center">
+                    <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                    </svg>
+                    <h3 class="mt-2 text-lg font-medium text-gray-900">Order not found</h3>
+                    <p class="mt-1 text-sm text-gray-500">The order reference "{{ $orderRef }}" could not be found.</p>
+                    <div class="mt-6">
+                        <a href="{{ route('admin.order-management') }}" 
+                           class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700">
+                            Back to Orders
+                        </a>
+                    </div>
+                </div>
+            @endif
         </div>
     </main>
 @endsection
