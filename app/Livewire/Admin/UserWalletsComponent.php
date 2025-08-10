@@ -9,7 +9,7 @@ class UserWalletsComponent extends Component
 {
     use WithPagination;
 
-    public $activeTab     = 'crypto';
+    public $activeTab     = 'fiat';
     public $search        = '';
     public $typeFilter    = '';
     public $statusFilter  = '';
