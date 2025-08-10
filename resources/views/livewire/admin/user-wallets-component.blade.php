@@ -165,11 +165,13 @@
                         <td class="px-6 py-4">
                             <div class="flex items-center space-x-2">
                                 <button wire:click="openTransactionModal({{ $wallet->id }}, 'credit')" 
+                                    onclick="console.log('Credit button clicked for wallet {{ $wallet->id }}, active tab: {{ $activeTab }}')"
                                     class="text-green-600 hover:text-green-900 text-sm font-medium" title="Credit Wallet">
                                     Credit
                                 </button>
                                 <span class="text-gray-300">|</span>
                                 <button wire:click="openTransactionModal({{ $wallet->id }}, 'debit')" 
+                                    onclick="console.log('Debit button clicked for wallet {{ $wallet->id }}, active tab: {{ $activeTab }}')"
                                     class="text-red-600 hover:text-red-900 text-sm font-medium" title="Debit Wallet">
                                     Debit
                                 </button>
