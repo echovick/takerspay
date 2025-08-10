@@ -108,17 +108,18 @@
                         <td class="px-6 py-4">
                             <div class="flex items-center">
                                 @php
-                                    $firstName = $wallet->user->metaData->first_name ?? '';
-                                    $lastName = $wallet->user->metaData->last_name ?? '';
-                                    $displayName = trim($firstName . ' ' . $lastName) ?: $wallet->user->email;
-                                    $initials = $firstName && $lastName ? strtoupper(substr($firstName, 0, 1) . substr($lastName, 0, 1)) : strtoupper(substr($wallet->user->email, 0, 2));
+                                    $firstName = $wallet->user?->metaData?->first_name ?? '';
+                                    $lastName = $wallet->user?->metaData?->last_name ?? '';
+                                    $userEmail = $wallet->user?->email ?? 'Unknown User';
+                                    $displayName = trim($firstName . ' ' . $lastName) ?: $userEmail;
+                                    $initials = $firstName && $lastName ? strtoupper(substr($firstName, 0, 1) . substr($lastName, 0, 1)) : strtoupper(substr($userEmail, 0, 2));
                                 @endphp
                                 <div class="h-8 w-8 rounded-full flex items-center justify-center text-white font-bold text-xs mr-3 bg-gradient-to-tr from-blue-500 to-cyan-600">
                                     {{ $initials }}
                                 </div>
                                 <div>
                                     <div class="font-medium text-gray-900">{{ $displayName }}</div>
-                                    <div class="text-xs text-gray-500">{{ $wallet->user->email }}</div>
+                                    <div class="text-xs text-gray-500">{{ $userEmail }}</div>
                                 </div>
                             </div>
                         </td>
@@ -223,9 +224,9 @@
                     </div>
                     <div class="mt-2">
                         @php
-                            $firstName = $selectedWallet->user->metaData->first_name ?? '';
-                            $lastName = $selectedWallet->user->metaData->last_name ?? '';
-                            $userName = trim($firstName . ' ' . $lastName) ?: $selectedWallet->user->email;
+                            $firstName = $selectedWallet->user?->metaData?->first_name ?? '';
+                            $lastName = $selectedWallet->user?->metaData?->last_name ?? '';
+                            $userName = trim($firstName . ' ' . $lastName) ?: ($selectedWallet->user?->email ?? 'Unknown User');
                         @endphp
                         <p class="text-sm text-gray-600">
                             User: <strong>{{ $userName }}</strong>

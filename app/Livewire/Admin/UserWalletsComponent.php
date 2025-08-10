@@ -133,13 +133,32 @@ class UserWalletsComponent extends Component
 
         $results = $query->paginate($this->perPage);
         
+        // Log detailed wallet data for debugging
+        $walletsData = [];
+        foreach ($results->take(3) as $wallet) { // Log first 3 wallets for inspection
+            $walletsData[] = [
+                'id' => $wallet->id,
+                'type' => $wallet->type,
+                'status' => $wallet->status,
+                'user_id' => $wallet->user_id,
+                'has_user' => !is_null($wallet->user),
+                'has_user_metadata' => !is_null($wallet->user) && !is_null($wallet->user->metaData),
+                'has_asset' => !is_null($wallet->asset),
+                'balance' => $wallet->balance,
+                'currency' => $wallet->currency,
+                'account_number' => $wallet->account_number,
+                'crypto_wallet_number' => $wallet->crypto_wallet_number
+            ];
+        }
+
         \Log::info('UserWalletsComponent: getWallets results', [
             'total_results' => $results->total(),
             'current_page_count' => $results->count(),
             'has_results' => $results->count() > 0,
             'first_wallet_id' => $results->count() > 0 ? $results->first()->id : null,
             'sql_query' => $query->toSql(),
-            'sql_bindings' => $query->getBindings()
+            'sql_bindings' => $query->getBindings(),
+            'sample_wallets_data' => $walletsData
         ]);
 
         return $results;
