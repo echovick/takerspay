@@ -18,22 +18,25 @@
                     <div class="flex items-center space-x-3 mb-2 sm:mb-0">
                         <a href="{{ route('admin.user-management') }}" class="text-gray-400 hover:text-gray-600">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7">
+                                </path>
                             </svg>
                         </a>
                         <h1 class="text-xl md:text-2xl font-bold text-gray-900">
                             {{ trim(($user->metaData->first_name ?? '') . ' ' . ($user->metaData->last_name ?? '')) ?: $user->email }}
                         </h1>
-                        @php 
+                        @php
                             $kycStatus = $user->metaData->status ?? 'inactive';
                         @endphp
-                        @if($kycStatus === 'active')
-                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                        @if ($kycStatus === 'active')
+                            <span
+                                class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
                                 <span class="w-1.5 h-1.5 mr-1.5 bg-green-400 rounded-full"></span>
                                 Verified
                             </span>
                         @else
-                            <span class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+                            <span
+                                class="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
                                 <span class="w-1.5 h-1.5 mr-1.5 bg-yellow-400 rounded-full"></span>
                                 Pending
                             </span>

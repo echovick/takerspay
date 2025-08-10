@@ -144,7 +144,7 @@ class UserWalletManagementComponent extends Component
                     'crypto' => 'BTC',
                     'nuban'  => 'NGN',
                 ];
-                
+
                 // Create transaction record
                 $wallet->transactions()->create([
                     'transaction_type'            => 'credit',
@@ -165,7 +165,7 @@ class UserWalletManagementComponent extends Component
 
             $this->closeDepositModal();
             $this->dispatch('refreshUserStats');
-            session()->flash('success', 'Deposit of ' . number_format($this->depositAmount, 2) . ' processed successfully!');
+            session()->flash('success', 'Deposit processed successfully!');
 
         } catch (\Exception $e) {
             Log::error('Deposit failed: ' . $e->getMessage());
@@ -234,7 +234,7 @@ class UserWalletManagementComponent extends Component
                     'crypto' => 'BTC',
                     'nuban'  => 'NGN',
                 ];
-                
+
                 // Create transaction record
                 $wallet->transactions()->create([
                     'transaction_type'            => 'debit',
@@ -260,7 +260,7 @@ class UserWalletManagementComponent extends Component
 
             $this->closeWithdrawModal();
             $this->dispatch('refreshUserStats');
-            session()->flash('success', 'Withdrawal of ' . number_format($this->withdrawAmount, 2) . ' processed successfully!');
+            session()->flash('success', 'Withdrawal of ' . number_format((float) $this->withdrawAmount, 2) . ' processed successfully!');
 
         } catch (\Exception $e) {
             session()->flash('error', $e->getMessage());
@@ -331,7 +331,7 @@ class UserWalletManagementComponent extends Component
                 $toWallet->update(['balance' => $toBalanceAfter]);
 
                 $reference = 'TRF-ADM-' . strtoupper(uniqid());
-                
+
                 // Get currency mapping
                 $currencies = [
                     'fiat'   => 'USD',
@@ -380,7 +380,7 @@ class UserWalletManagementComponent extends Component
 
             $this->closeTransferModal();
             $this->dispatch('refreshUserStats');
-            session()->flash('success', 'Transfer of ' . number_format($this->transferAmount, 2) . ' processed successfully!');
+            session()->flash('success', 'Transfer processed successfully!');
 
         } catch (\Exception $e) {
             session()->flash('error', $e->getMessage());
