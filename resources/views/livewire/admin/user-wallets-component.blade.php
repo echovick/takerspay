@@ -3,18 +3,20 @@
     <div class="mb-4 border-b border-gray-200">
         <ul class="flex flex-wrap -mb-px text-sm font-medium text-center" role="tablist">
             <li class="me-2" role="presentation">
-                <button wire:click="setActiveTab('fiat')" 
+                <button wire:click="setActiveTab('fiat')"
                     class="inline-block p-4 border-b-2 rounded-t-lg {{ $activeTab === 'fiat' ? 'text-blue-600 border-blue-600' : 'text-gray-500 border-transparent hover:text-gray-600 hover:border-gray-300' }}"
                     type="button" role="tab">
                     <div class="flex items-center">
                         <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z">
+                            </path>
                         </svg>
                         FundsPadi Wallet
                     </div>
                 </button>
             </li>
-            <li class="me-2" role="presentation">
+            {{-- <li class="me-2" role="presentation">
                 <button wire:click="setActiveTab('crypto')" 
                     class="inline-block p-4 border-b-2 rounded-t-lg {{ $activeTab === 'crypto' ? 'text-blue-600 border-blue-600' : 'text-gray-500 border-transparent hover:text-gray-600 hover:border-gray-300' }}"
                     type="button" role="tab">
@@ -25,7 +27,7 @@
                         Crypto Wallets
                     </div>
                 </button>
-            </li>
+            </li> --}}
         </ul>
     </div>
 
@@ -33,16 +35,18 @@
     <div class="flex justify-between items-center mb-4">
         <div class="flex gap-4 items-center">
             <!-- Per Page -->
-            <select wire:model.live="perPage" class="px-3 py-2 text-sm border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500">
+            <select wire:model.live="perPage"
+                class="px-3 py-2 text-sm border border-gray-300 rounded-lg bg-white focus:ring-blue-500 focus:border-blue-500">
                 <option value="10">10 per page</option>
                 <option value="25">25 per page</option>
                 <option value="50">50 per page</option>
                 <option value="100">100 per page</option>
             </select>
         </div>
-        
+
         <div class="text-sm text-gray-600">
-            Showing {{ $wallets->firstItem() ?? 0 }} to {{ $wallets->lastItem() ?? 0 }} of {{ $wallets->total() ?? 0 }} wallets
+            Showing {{ $wallets->firstItem() ?? 0 }} to {{ $wallets->lastItem() ?? 0 }} of {{ $wallets->total() ?? 0 }}
+            wallets
         </div>
     </div>
 
@@ -52,46 +56,67 @@
             <thead class="text-xs text-gray-700 uppercase bg-gray-50">
                 <tr>
                     <th scope="col" class="px-6 py-3">S/N</th>
-                    <th scope="col" class="px-6 py-3 cursor-pointer hover:bg-gray-100" wire:click="sortBy('user_name')">
+                    <th scope="col" class="px-6 py-3 cursor-pointer hover:bg-gray-100"
+                        wire:click="sortBy('user_name')">
                         <div class="flex items-center">
                             User
-                            @if($sortBy === 'user_name')
-                                @if($sortDirection === 'asc')
-                                    <svg class="w-3 h-3 ml-1" fill="currentColor" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/></svg>
+                            @if ($sortBy === 'user_name')
+                                @if ($sortDirection === 'asc')
+                                    <svg class="w-3 h-3 ml-1" fill="currentColor" viewBox="0 0 20 20">
+                                        <path
+                                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+                                    </svg>
                                 @else
-                                    <svg class="w-3 h-3 ml-1" fill="currentColor" viewBox="0 0 20 20"><path d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"/></svg>
+                                    <svg class="w-3 h-3 ml-1" fill="currentColor" viewBox="0 0 20 20">
+                                        <path
+                                            d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" />
+                                    </svg>
                                 @endif
                             @endif
                         </div>
                     </th>
-                    @if($activeTab === 'crypto')
+                    @if ($activeTab === 'crypto')
                         <th scope="col" class="px-6 py-3">Asset</th>
                         <th scope="col" class="px-6 py-3">Wallet Number</th>
                     @else
                         <th scope="col" class="px-6 py-3">Wallet Details</th>
                         <th scope="col" class="px-6 py-3">Account Number</th>
                     @endif
-                    <th scope="col" class="px-6 py-3 cursor-pointer hover:bg-gray-100" wire:click="sortBy('balance')">
+                    <th scope="col" class="px-6 py-3 cursor-pointer hover:bg-gray-100"
+                        wire:click="sortBy('balance')">
                         <div class="flex items-center">
                             Balance
-                            @if($sortBy === 'balance')
-                                @if($sortDirection === 'asc')
-                                    <svg class="w-3 h-3 ml-1" fill="currentColor" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/></svg>
+                            @if ($sortBy === 'balance')
+                                @if ($sortDirection === 'asc')
+                                    <svg class="w-3 h-3 ml-1" fill="currentColor" viewBox="0 0 20 20">
+                                        <path
+                                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+                                    </svg>
                                 @else
-                                    <svg class="w-3 h-3 ml-1" fill="currentColor" viewBox="0 0 20 20"><path d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"/></svg>
+                                    <svg class="w-3 h-3 ml-1" fill="currentColor" viewBox="0 0 20 20">
+                                        <path
+                                            d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" />
+                                    </svg>
                                 @endif
                             @endif
                         </div>
                     </th>
                     <th scope="col" class="px-6 py-3">Status</th>
-                    <th scope="col" class="px-6 py-3 cursor-pointer hover:bg-gray-100" wire:click="sortBy('created_at')">
+                    <th scope="col" class="px-6 py-3 cursor-pointer hover:bg-gray-100"
+                        wire:click="sortBy('created_at')">
                         <div class="flex items-center">
                             Created
-                            @if($sortBy === 'created_at')
-                                @if($sortDirection === 'asc')
-                                    <svg class="w-3 h-3 ml-1" fill="currentColor" viewBox="0 0 20 20"><path d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"/></svg>
+                            @if ($sortBy === 'created_at')
+                                @if ($sortDirection === 'asc')
+                                    <svg class="w-3 h-3 ml-1" fill="currentColor" viewBox="0 0 20 20">
+                                        <path
+                                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+                                    </svg>
                                 @else
-                                    <svg class="w-3 h-3 ml-1" fill="currentColor" viewBox="0 0 20 20"><path d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z"/></svg>
+                                    <svg class="w-3 h-3 ml-1" fill="currentColor" viewBox="0 0 20 20">
+                                        <path
+                                            d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" />
+                                    </svg>
                                 @endif
                             @endif
                         </div>
@@ -112,9 +137,13 @@
                                     $lastName = $wallet->user?->metaData?->last_name ?? '';
                                     $userEmail = $wallet->user?->email ?? 'Unknown User';
                                     $displayName = trim($firstName . ' ' . $lastName) ?: $userEmail;
-                                    $initials = $firstName && $lastName ? strtoupper(substr($firstName, 0, 1) . substr($lastName, 0, 1)) : strtoupper(substr($userEmail, 0, 2));
+                                    $initials =
+                                        $firstName && $lastName
+                                            ? strtoupper(substr($firstName, 0, 1) . substr($lastName, 0, 1))
+                                            : strtoupper(substr($userEmail, 0, 2));
                                 @endphp
-                                <div class="h-8 w-8 rounded-full flex items-center justify-center text-white font-bold text-xs mr-3 bg-gradient-to-tr from-blue-500 to-cyan-600">
+                                <div
+                                    class="h-8 w-8 rounded-full flex items-center justify-center text-white font-bold text-xs mr-3 bg-gradient-to-tr from-blue-500 to-cyan-600">
                                     {{ $initials }}
                                 </div>
                                 <div>
@@ -123,10 +152,11 @@
                                 </div>
                             </div>
                         </td>
-                        @if($activeTab === 'crypto')
+                        @if ($activeTab === 'crypto')
                             <td class="px-6 py-4">
-                                @if($wallet->asset)
-                                    <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                @if ($wallet->asset)
+                                    <span
+                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
                                         {{ $wallet->asset->name }}
                                     </span>
                                 @else
@@ -134,17 +164,21 @@
                                 @endif
                             </td>
                             <td class="px-6 py-4">
-                                <div class="font-mono text-sm text-gray-900">{{ $wallet->crypto_wallet_number ?: 'Not Set' }}</div>
+                                <div class="font-mono text-sm text-gray-900">
+                                    {{ $wallet->crypto_wallet_number ?: 'Not Set' }}</div>
                             </td>
                         @else
                             <td class="px-6 py-4">
                                 <div>
-                                    <div class="font-medium text-gray-900">{{ $wallet->bank_name ?: 'FundsPadi' }}</div>
-                                    <div class="text-xs text-gray-500">{{ $wallet->account_name ?: 'Wallet Account' }}</div>
+                                    <div class="font-medium text-gray-900">{{ $wallet->bank_name ?: 'FundsPadi' }}
+                                    </div>
+                                    <div class="text-xs text-gray-500">{{ $wallet->account_name ?: 'Wallet Account' }}
+                                    </div>
                                 </div>
                             </td>
                             <td class="px-6 py-4">
-                                <div class="font-mono text-sm text-gray-900">{{ $wallet->account_number ?: 'Not Set' }}</div>
+                                <div class="font-mono text-sm text-gray-900">{{ $wallet->account_number ?: 'Not Set' }}
+                                </div>
                             </td>
                         @endif
                         <td class="px-6 py-4">
@@ -152,9 +186,11 @@
                             <div class="text-xs text-gray-500">{{ $wallet->currency ?? 'NGN' }}</div>
                         </td>
                         <td class="px-6 py-4">
-                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
+                            <span
+                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
                                 {{ $wallet->status === 'active' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
-                                <span class="h-1.5 w-1.5 mr-1.5 rounded-full 
+                                <span
+                                    class="h-1.5 w-1.5 mr-1.5 rounded-full 
                                     {{ $wallet->status === 'active' ? 'bg-green-500' : 'bg-red-500' }}"></span>
                                 {{ ucfirst($wallet->status) }}
                             </span>
@@ -165,20 +201,22 @@
                         </td>
                         <td class="px-6 py-4">
                             <div class="flex items-center space-x-2">
-                                <button wire:click="openTransactionModal({{ $wallet->id }}, 'credit')" 
+                                <button wire:click="openTransactionModal({{ $wallet->id }}, 'credit')"
                                     onclick="console.log('Credit button clicked for wallet {{ $wallet->id }}, active tab: {{ $activeTab }}')"
-                                    class="text-green-600 hover:text-green-900 text-sm font-medium" title="Credit Wallet">
+                                    class="text-green-600 hover:text-green-900 text-sm font-medium"
+                                    title="Credit Wallet">
                                     Credit
                                 </button>
                                 <span class="text-gray-300">|</span>
-                                <button wire:click="openTransactionModal({{ $wallet->id }}, 'debit')" 
+                                <button wire:click="openTransactionModal({{ $wallet->id }}, 'debit')"
                                     onclick="console.log('Debit button clicked for wallet {{ $wallet->id }}, active tab: {{ $activeTab }}')"
                                     class="text-red-600 hover:text-red-900 text-sm font-medium" title="Debit Wallet">
                                     Debit
                                 </button>
                                 <span class="text-gray-300">|</span>
-                                <button wire:click="toggleWalletStatus({{ $wallet->id }})" 
-                                    class="text-blue-600 hover:text-blue-900 text-sm font-medium" title="Toggle Status">
+                                <button wire:click="toggleWalletStatus({{ $wallet->id }})"
+                                    class="text-blue-600 hover:text-blue-900 text-sm font-medium"
+                                    title="Toggle Status">
                                     {{ $wallet->status === 'active' ? 'Disable' : 'Enable' }}
                                 </button>
                             </div>
@@ -188,10 +226,13 @@
                     <tr>
                         <td colspan="8" class="px-6 py-8 text-center">
                             <div class="text-gray-500">
-                                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                                <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24"
+                                    stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                        d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
                                 </svg>
-                                <h3 class="mt-2 text-sm font-medium text-gray-900">No {{ $activeTab === 'crypto' ? 'crypto wallets' : 'FundsPadi wallets' }} found</h3>
+                                <h3 class="mt-2 text-sm font-medium text-gray-900">No
+                                    {{ $activeTab === 'crypto' ? 'crypto wallets' : 'FundsPadi wallets' }} found</h3>
                                 <p class="mt-1 text-sm text-gray-500">No wallets match your current filters.</p>
                             </div>
                         </td>
@@ -199,7 +240,7 @@
                 @endforelse
             </tbody>
         </table>
-        
+
         <!-- Pagination -->
         <div class="px-6 py-4 border-t border-gray-200">
             {{ $wallets->links() }}
@@ -207,7 +248,7 @@
     </div>
 
     <!-- Transaction Modal -->
-    @if($showTransactionModal && $selectedWallet)
+    @if ($showTransactionModal && $selectedWallet)
         <div class="fixed inset-0 bg-gray-600 bg-opacity-75 z-50 flex items-center justify-center p-4">
             <div class="bg-white rounded-xl shadow-xl max-w-lg w-full">
                 <!-- Modal Header -->
@@ -218,7 +259,8 @@
                         </h3>
                         <button wire:click="closeTransactionModal" class="text-gray-400 hover:text-gray-600">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M6 18L18 6M6 6l12 12"></path>
                             </svg>
                         </button>
                     </div>
@@ -226,7 +268,8 @@
                         @php
                             $firstName = $selectedWallet->user?->metaData?->first_name ?? '';
                             $lastName = $selectedWallet->user?->metaData?->last_name ?? '';
-                            $userName = trim($firstName . ' ' . $lastName) ?: ($selectedWallet->user?->email ?? 'Unknown User');
+                            $userName =
+                                trim($firstName . ' ' . $lastName) ?: $selectedWallet->user?->email ?? 'Unknown User';
                         @endphp
                         <p class="text-sm text-gray-600">
                             User: <strong>{{ $userName }}</strong>
@@ -245,10 +288,12 @@
                             <label for="transactionAmount" class="block text-sm font-medium text-gray-700 mb-1">
                                 Amount *
                             </label>
-                            <input type="number" wire:model="transactionAmount" id="transactionAmount" step="0.01" min="0.01" 
-                                placeholder="Enter amount"
+                            <input type="number" wire:model="transactionAmount" id="transactionAmount"
+                                step="0.01" min="0.01" placeholder="Enter amount"
                                 class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-sm">
-                            @error('transactionAmount') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                            @error('transactionAmount')
+                                <span class="text-red-500 text-xs">{{ $message }}</span>
+                            @enderror
                             <p class="text-xs text-gray-500 mt-1">Amount in Naira (₦)</p>
                         </div>
 
@@ -260,14 +305,19 @@
                             <textarea wire:model="transactionDescription" id="transactionDescription" rows="3"
                                 placeholder="Enter transaction description"
                                 class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-sm"></textarea>
-                            @error('transactionDescription') <span class="text-red-500 text-xs">{{ $message }}</span> @enderror
+                            @error('transactionDescription')
+                                <span class="text-red-500 text-xs">{{ $message }}</span>
+                            @enderror
                         </div>
 
-                        @if($transactionType === 'debit' && $selectedWallet->balance < floatval($transactionAmount))
+                        @if ($transactionType === 'debit' && $selectedWallet->balance < floatval($transactionAmount))
                             <div class="bg-red-50 border border-red-200 rounded-lg p-3">
                                 <div class="flex items-center">
-                                    <svg class="w-5 h-5 text-red-500 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z"></path>
+                                    <svg class="w-5 h-5 text-red-500 mr-2" fill="none" stroke="currentColor"
+                                        viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.732 16.5c-.77.833.192 2.5 1.732 2.5z">
+                                        </path>
                                     </svg>
                                     <p class="text-red-700 text-sm">Insufficient balance for this debit amount.</p>
                                 </div>
@@ -296,13 +346,13 @@
     @endif
 
     <!-- Success/Error Messages -->
-    @if(session()->has('success'))
+    @if (session()->has('success'))
         <div class="fixed top-4 right-4 z-50 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg">
             {{ session('success') }}
         </div>
     @endif
 
-    @if(session()->has('error'))
+    @if (session()->has('error'))
         <div class="fixed top-4 right-4 z-50 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg">
             {{ session('error') }}
         </div>
@@ -368,7 +418,7 @@
         function setupFallbackEventHandlers() {
             // Remove existing listeners to avoid duplicates
             document.removeEventListener('click', handleButtonClick);
-            
+
             // Add delegated event listener for dynamic content
             document.addEventListener('click', handleButtonClick);
         }
@@ -378,22 +428,23 @@
             if (button) {
                 const wireClick = button.getAttribute('wire:click');
                 console.log('Fallback handler - button clicked:', wireClick);
-                
+
                 // Check if Livewire handled the click
                 setTimeout(() => {
                     const modal = document.querySelector('.fixed.inset-0.bg-gray-600');
                     if (!modal) {
                         console.warn('Modal not opened - manually triggering Livewire');
-                        
+
                         // Extract wallet ID and type from wire:click
                         const match = wireClick.match(/openTransactionModal\\((\\d+),\\s*'(\\w+)'\\)/);
                         if (match) {
                             const walletId = match[1];
                             const type = match[2];
-                            
+
                             // Manually call Livewire method
                             if (window.Livewire) {
-                                const component = window.Livewire.find(button.closest('[wire\\:id]').getAttribute('wire:id'));
+                                const component = window.Livewire.find(button.closest('[wire\\:id]').getAttribute(
+                                    'wire:id'));
                                 if (component) {
                                     component.call('openTransactionModal', walletId, type);
                                 }
