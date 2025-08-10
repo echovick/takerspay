@@ -307,4 +307,105 @@
             {{ session('error') }}
         </div>
     @endif
+
+    <!-- Livewire Event Binding Fix -->
+    <script>
+        // Check for proper initialization order
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Initialization check:', {
+                livewire: !!window.Livewire,
+                alpine: !!window.Alpine,
+                timestamp: new Date().toISOString()
+            });
+        });
+
+        document.addEventListener('livewire:navigated', function() {
+            console.log('Livewire navigated - reinitializing');
+            if (window.Livewire) {
+                window.Livewire.rescan();
+            }
+        });
+
+        document.addEventListener('livewire:updated', function() {
+            console.log('Livewire updated - DOM refreshed');
+            if (window.Livewire) {
+                window.Livewire.rescan();
+            }
+        });
+
+        // Additional hook for morphing
+        document.addEventListener('livewire:morph', function() {
+            console.log('Livewire morphed - content changed');
+        });
+
+        // Debug DOM state after updates
+        function debugWireClickButtons() {
+            const buttons = document.querySelectorAll('button[wire\\:click^="openTransactionModal"]');
+            console.log('Found wire:click buttons:', buttons.length);
+            buttons.forEach((btn, index) => {
+                const wireClick = btn.getAttribute('wire:click');
+                const onclick = btn.getAttribute('onclick');
+                console.log(`Button ${index + 1}:`, {
+                    wireClick,
+                    onclick,
+                    hasWireClick: !!wireClick,
+                    hasOnclick: !!onclick
+                });
+            });
+        }
+
+        // Run debug after each Livewire update
+        document.addEventListener('livewire:updated', function() {
+            setTimeout(debugWireClickButtons, 100);
+        });
+
+        // Initial debug
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(debugWireClickButtons, 100);
+        });
+
+        // Fallback event handling for dynamically loaded content
+        function setupFallbackEventHandlers() {
+            // Remove existing listeners to avoid duplicates
+            document.removeEventListener('click', handleButtonClick);
+            
+            // Add delegated event listener for dynamic content
+            document.addEventListener('click', handleButtonClick);
+        }
+
+        function handleButtonClick(event) {
+            const button = event.target.closest('button[wire\\:click^="openTransactionModal"]');
+            if (button) {
+                const wireClick = button.getAttribute('wire:click');
+                console.log('Fallback handler - button clicked:', wireClick);
+                
+                // Check if Livewire handled the click
+                setTimeout(() => {
+                    const modal = document.querySelector('.fixed.inset-0.bg-gray-600');
+                    if (!modal) {
+                        console.warn('Modal not opened - manually triggering Livewire');
+                        
+                        // Extract wallet ID and type from wire:click
+                        const match = wireClick.match(/openTransactionModal\\((\\d+),\\s*'(\\w+)'\\)/);
+                        if (match) {
+                            const walletId = match[1];
+                            const type = match[2];
+                            
+                            // Manually call Livewire method
+                            if (window.Livewire) {
+                                const component = window.Livewire.find(button.closest('[wire\\:id]').getAttribute('wire:id'));
+                                if (component) {
+                                    component.call('openTransactionModal', walletId, type);
+                                }
+                            }
+                        }
+                    }
+                }, 200);
+            }
+        }
+
+        // Setup fallback handlers
+        document.addEventListener('DOMContentLoaded', setupFallbackEventHandlers);
+        document.addEventListener('livewire:updated', setupFallbackEventHandlers);
+    </script>
 </div>
