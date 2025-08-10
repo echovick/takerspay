@@ -90,19 +90,30 @@
     @push('script')
         <script>
             function triggerImageUpload() {
-                document.getElementById('imageUploadInput').click();
+                const uploadInput = document.getElementById('imageUploadInput');
+                if (uploadInput) {
+                    uploadInput.click();
+                }
             }
 
             // Optionally handle the file selection
-            document.getElementById('imageUploadInput').addEventListener('change', function(event) {
-                const file = event.target.files[0];
-                if (file) {
-                    console.log('Selected file:', file.name);
-                    // You can now handle the uploaded image (e.g., preview or upload to server)
-                }
-            });
+            const imageUploadInput = document.getElementById('imageUploadInput');
+            if (imageUploadInput) {
+                imageUploadInput.addEventListener('change', function(event) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        console.log('Selected file:', file.name);
+                        // You can now handle the uploaded image (e.g., preview or upload to server)
+                    }
+                });
+            }
 
             async function fetchCryptoPrices() {
+                const cryptoPricesElement = document.getElementById('crypto-prices');
+                if (!cryptoPricesElement) {
+                    return; // Element doesn't exist on this page
+                }
+
                 const apiUrl =
                     'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,binancecoin,solana&vs_currencies=usd';
 
@@ -116,14 +127,14 @@
                         .join(' | ');
 
                     // Inject prices into the marquee
-                    document.getElementById('crypto-prices').textContent = prices;
+                    cryptoPricesElement.textContent = prices;
                 } catch (error) {
                     console.error('Error fetching crypto prices:', error);
-                    document.getElementById('crypto-prices').textContent = 'Failed to load prices.';
+                    cryptoPricesElement.textContent = 'Failed to load prices.';
                 }
             }
 
-            // Fetch and display prices
+            // Fetch and display prices only if element exists
             fetchCryptoPrices();
 
             // Optionally, refresh prices every minute
