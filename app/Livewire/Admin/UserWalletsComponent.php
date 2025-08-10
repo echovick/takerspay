@@ -64,7 +64,7 @@ class UserWalletsComponent extends Component
         if ($this->activeTab === 'crypto') {
             $query->where('type', 'crypto');
         } elseif ($this->activeTab === 'fiat') {
-            $query->whereIn('type', ['fiat', 'nuban']);
+            $query->where('type', 'nuban');
         }
 
         // Apply search filter
