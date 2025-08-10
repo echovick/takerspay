@@ -17,7 +17,6 @@
     <meta name="google-site-verification" content="google-site-verification=google-site-verification">
     <link rel="icon" href="{{ asset('assets/imgs/takers-pay-logo.png') }}" type="image/x-icon">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <link rel="stylesheet" href="{{ asset('build/assets/app-BIKGneNk.js') }}">
     <link rel="stylesheet" href="{{ asset('build/assets/app-BYw1X5l1.css') }}">
     @livewireStyles
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -85,62 +84,61 @@
 
 <body>
     @yield('content')
-    @livewireScripts
     @stack('scripts')
-    @push('script')
-        <script>
-            function triggerImageUpload() {
-                const uploadInput = document.getElementById('imageUploadInput');
-                if (uploadInput) {
-                    uploadInput.click();
+    <script>
+        function triggerImageUpload() {
+            const uploadInput = document.getElementById('imageUploadInput');
+            if (uploadInput) {
+                uploadInput.click();
+            }
+        }
+
+        // Optionally handle the file selection
+        const imageUploadInput = document.getElementById('imageUploadInput');
+        if (imageUploadInput) {
+            imageUploadInput.addEventListener('change', function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    console.log('Selected file:', file.name);
+                    // You can now handle the uploaded image (e.g., preview or upload to server)
                 }
+            });
+        }
+
+        async function fetchCryptoPrices() {
+            const cryptoPricesElement = document.getElementById('crypto-prices');
+            if (!cryptoPricesElement) {
+                return; // Element doesn't exist on this page
             }
 
-            // Optionally handle the file selection
-            const imageUploadInput = document.getElementById('imageUploadInput');
-            if (imageUploadInput) {
-                imageUploadInput.addEventListener('change', function(event) {
-                    const file = event.target.files[0];
-                    if (file) {
-                        console.log('Selected file:', file.name);
-                        // You can now handle the uploaded image (e.g., preview or upload to server)
-                    }
-                });
+            const apiUrl =
+                'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,binancecoin,solana&vs_currencies=usd';
+
+            try {
+                const response = await fetch(apiUrl);
+                const data = await response.json();
+
+                // Format prices into a string separated by "|"
+                const prices = Object.entries(data)
+                    .map(([name, value]) => `${name.toUpperCase()}: $${value.usd}`)
+                    .join(' | ');
+
+                // Inject prices into the marquee
+                cryptoPricesElement.textContent = prices;
+            } catch (error) {
+                console.error('Error fetching crypto prices:', error);
+                cryptoPricesElement.textContent = 'Failed to load prices.';
             }
+        }
 
-            async function fetchCryptoPrices() {
-                const cryptoPricesElement = document.getElementById('crypto-prices');
-                if (!cryptoPricesElement) {
-                    return; // Element doesn't exist on this page
-                }
+        // Fetch and display prices only if element exists
+        fetchCryptoPrices();
 
-                const apiUrl =
-                    'https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,binancecoin,solana&vs_currencies=usd';
+        // Optionally, refresh prices every minute
+        setInterval(fetchCryptoPrices, 60000);
+    </script>
+    <script src="{{ asset('build/assets/app-BIKGneNk.js') }}"></script>
+    @livewireScripts
+</body>
 
-                try {
-                    const response = await fetch(apiUrl);
-                    const data = await response.json();
-
-                    // Format prices into a string separated by "|"
-                    const prices = Object.entries(data)
-                        .map(([name, value]) => `${name.toUpperCase()}: $${value.usd}`)
-                        .join(' | ');
-
-                    // Inject prices into the marquee
-                    cryptoPricesElement.textContent = prices;
-                } catch (error) {
-                    console.error('Error fetching crypto prices:', error);
-                    cryptoPricesElement.textContent = 'Failed to load prices.';
-                }
-            }
-
-            // Fetch and display prices only if element exists
-            fetchCryptoPrices();
-
-            // Optionally, refresh prices every minute
-            setInterval(fetchCryptoPrices, 60000);
-        </script>
-        <script src="{{ asset('build/assets/app-BIKGneNk.js') }}"></script>
-    </body>
-
-    </html>
+</html>
