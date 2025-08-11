@@ -18,21 +18,21 @@ class UserWalletManagementComponent extends Component
     public $showTransferModal = false;
 
     // Deposit form
-    public $depositWalletType  = 'fiat';
+    public $depositWalletType  = 'nuban';
     public $depositAmount      = '';
     public $depositDescription = '';
 
     // Withdraw form
-    public $withdrawWalletType    = 'fiat';
+    public $withdrawWalletType    = 'nuban';
     public $withdrawAmount        = '';
     public $withdrawBankAccount   = '';
     public $withdrawDescription   = '';
     public $availableBankAccounts = [];
 
     // Transfer form
-    public $transferFromWalletType = 'fiat';
+    public $transferFromWalletType = 'nuban';
     public $transferToUserId       = '';
-    public $transferToWalletType   = 'fiat';
+    public $transferToWalletType   = 'nuban';
     public $transferAmount         = '';
     public $transferDescription    = '';
     public $searchUsers            = [];
@@ -119,7 +119,7 @@ class UserWalletManagementComponent extends Component
     {
         $this->validate([
             'depositAmount'      => 'required|numeric|min:0.01|max:1000000',
-            'depositWalletType'  => 'required|in:fiat,crypto,nuban',
+            'depositWalletType'  => 'required|in:nuban',
             'depositDescription' => 'required|string|min:5|max:255',
         ], [], [
             'depositAmount'      => 'Amount',
@@ -138,23 +138,16 @@ class UserWalletManagementComponent extends Component
                 // Update wallet balance
                 $wallet->update(['balance' => $balanceAfter]);
 
-                // Get currency mapping
-                $currencies = [
-                    'fiat'   => 'USD',
-                    'crypto' => 'BTC',
-                    'nuban'  => 'NGN',
-                ];
-
-                // Create transaction record
+                // Create transaction record for NUBAN deposit
                 $wallet->transactions()->create([
                     'transaction_type'            => 'credit',
                     'amount'                      => $this->depositAmount,
                     'balance_before'              => $balanceBefore,
                     'balance_after'               => $balanceAfter,
-                    'transaction_description'     => $this->depositDescription,
+                    'transaction_description'     => 'NUBAN Deposit: ' . $this->depositDescription,
                     'transaction_reference'       => 'DEP-ADM-' . strtoupper(uniqid()),
                     'status'                      => 'completed',
-                    'currency'                    => $wallet->currency ?: $currencies[$this->depositWalletType],
+                    'currency'                    => 'NGN',
                     'transaction_response_object' => json_encode([
                         'admin_action' => 'deposit',
                         'admin_id'     => Auth::id(),
@@ -198,7 +191,7 @@ class UserWalletManagementComponent extends Component
     {
         $this->validate([
             'withdrawAmount'      => 'required|numeric|min:0.01|max:1000000',
-            'withdrawWalletType'  => 'required|in:fiat,crypto,nuban',
+            'withdrawWalletType'  => 'required|in:nuban',
             'withdrawBankAccount' => 'required|exists:bank_accounts,id',
             'withdrawDescription' => 'required|string|min:5|max:255',
         ], [], [
@@ -228,23 +221,16 @@ class UserWalletManagementComponent extends Component
                 // Get bank account details
                 $bankAccount = BankAccount::find($this->withdrawBankAccount);
 
-                // Get currency mapping
-                $currencies = [
-                    'fiat'   => 'USD',
-                    'crypto' => 'BTC',
-                    'nuban'  => 'NGN',
-                ];
-
-                // Create transaction record
+                // Create transaction record for NUBAN withdrawal
                 $wallet->transactions()->create([
                     'transaction_type'            => 'debit',
                     'amount'                      => $this->withdrawAmount,
                     'balance_before'              => $balanceBefore,
                     'balance_after'               => $balanceAfter,
-                    'transaction_description'     => $this->withdrawDescription,
+                    'transaction_description'     => $this->withdrawDescription . ' (Withdrawal to: ' . $bankAccount->bank_name . ')',
                     'transaction_reference'       => 'WTH-ADM-' . strtoupper(uniqid()),
                     'status'                      => 'completed',
-                    'currency'                    => $wallet->currency ?: $currencies[$this->withdrawWalletType],
+                    'currency'                    => 'NGN',
                     'transaction_response_object' => json_encode([
                         'admin_action' => 'withdraw',
                         'admin_id'     => Auth::id(),
@@ -294,8 +280,8 @@ class UserWalletManagementComponent extends Component
     {
         $this->validate([
             'transferAmount'         => 'required|numeric|min:0.01|max:1000000',
-            'transferFromWalletType' => 'required|in:fiat,crypto,nuban',
-            'transferToWalletType'   => 'required|in:fiat,crypto,nuban',
+            'transferFromWalletType' => 'required|in:nuban',
+            'transferToWalletType'   => 'required|in:nuban',
             'transferToUserId'       => 'required|exists:users,id',
             'transferDescription'    => 'required|string|min:5|max:255',
         ], [], [
@@ -332,23 +318,16 @@ class UserWalletManagementComponent extends Component
 
                 $reference = 'TRF-ADM-' . strtoupper(uniqid());
 
-                // Get currency mapping
-                $currencies = [
-                    'fiat'   => 'USD',
-                    'crypto' => 'BTC',
-                    'nuban'  => 'NGN',
-                ];
-
-                // Create debit transaction for sender
+                // Create debit transaction for sender (NUBAN to NUBAN)
                 $fromWallet->transactions()->create([
                     'transaction_type'            => 'debit',
                     'amount'                      => $this->transferAmount,
                     'balance_before'              => $fromBalanceBefore,
                     'balance_after'               => $fromBalanceAfter,
-                    'transaction_description'     => 'Transfer to ' . ($toUser->metaData->first_name ?? $toUser->email) . ' - ' . $this->transferDescription,
+                    'transaction_description'     => 'NUBAN Transfer to ' . ($toUser->metaData->first_name ?? $toUser->email) . ' - ' . $this->transferDescription,
                     'transaction_reference'       => $reference,
                     'status'                      => 'completed',
-                    'currency'                    => $fromWallet->currency ?: $currencies[$this->transferFromWalletType],
+                    'currency'                    => 'NGN',
                     'transaction_response_object' => json_encode([
                         'admin_action'    => 'transfer_debit',
                         'admin_id'        => Auth::id(),
@@ -358,16 +337,16 @@ class UserWalletManagementComponent extends Component
                     ]),
                 ]);
 
-                // Create credit transaction for recipient
+                // Create credit transaction for recipient (NUBAN to NUBAN)
                 $toWallet->transactions()->create([
                     'transaction_type'            => 'credit',
                     'amount'                      => $this->transferAmount,
                     'balance_before'              => $toBalanceBefore,
                     'balance_after'               => $toBalanceAfter,
-                    'transaction_description'     => 'Transfer from ' . ($this->user->metaData->first_name ?? $this->user->email) . ' - ' . $this->transferDescription,
+                    'transaction_description'     => 'NUBAN Transfer from ' . ($this->user->metaData->first_name ?? $this->user->email) . ' - ' . $this->transferDescription,
                     'transaction_reference'       => $reference,
                     'status'                      => 'completed',
-                    'currency'                    => $toWallet->currency ?: $currencies[$this->transferToWalletType],
+                    'currency'                    => 'NGN',
                     'transaction_response_object' => json_encode([
                         'admin_action' => 'transfer_credit',
                         'admin_id'     => Auth::id(),
@@ -397,20 +376,14 @@ class UserWalletManagementComponent extends Component
         $wallet = $user->wallets()->where('type', $type)->first();
 
         if (! $wallet) {
-            $currencies = [
-                'fiat'   => 'USD',
-                'crypto' => 'BTC',
-                'nuban'  => 'NGN',
-            ];
-
+            // Since we're only supporting NUBAN now, create NUBAN wallet only
             $wallet = $user->wallets()->create([
-                'type'                 => $type,
-                'currency'             => $currencies[$type],
-                'balance'              => 0.00,
-                'status'               => 'active',
-                'crypto_wallet_number' => $type === 'crypto' ? $this->generateCryptoWalletNumber() : null,
-                'bank_name'            => $type === 'nuban' ? 'TakersPay Bank' : null,
-                'account_number'       => $type === 'nuban' ? $this->generateAccountNumber() : null,
+                'type'           => 'nuban',
+                'currency'       => 'NGN',
+                'balance'        => 0.00,
+                'status'         => 'active',
+                'bank_name'      => 'TakersPay Bank',
+                'account_number' => $this->generateAccountNumber(),
             ]);
         }
 

@@ -47,11 +47,9 @@
                         <div>
                             <label for="depositWalletType" class="block text-sm font-medium text-gray-700 mb-1">Wallet
                                 Type *</label>
-                            <select wire:model="depositWalletType" id="depositWalletType"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500 text-sm">
-                                <option value="fiat">Fiat Wallet (USD)</option>
-                                <option value="crypto">Crypto Wallet (BTC)</option>
-                                <option value="nuban">NUBAN Wallet (NGN)</option>
+                            <select wire:model="depositWalletType" id="depositWalletType" disabled
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-600 cursor-not-allowed text-sm">
+                                <option value="nuban">Fiat Wallet (NGN)</option>
                             </select>
                             @error('depositWalletType')
                                 <span class="text-red-500 text-xs">{{ $message }}</span>
@@ -121,11 +119,9 @@
                         <div>
                             <label for="withdrawWalletType" class="block text-sm font-medium text-gray-700 mb-1">Wallet
                                 Type *</label>
-                            <select wire:model="withdrawWalletType" id="withdrawWalletType"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-emerald-500 focus:border-emerald-500 text-sm">
-                                <option value="fiat">Fiat Wallet (USD)</option>
-                                <option value="crypto">Crypto Wallet (BTC)</option>
-                                <option value="nuban">NUBAN Wallet (NGN)</option>
+                            <select wire:model="withdrawWalletType" id="withdrawWalletType" disabled
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-600 cursor-not-allowed text-sm">
+                                <option value="nuban">Fiat Wallet (NGN)</option>
                             </select>
                             @error('withdrawWalletType')
                                 <span class="text-red-500 text-xs">{{ $message }}</span>
@@ -215,11 +211,9 @@
                         <div>
                             <label for="transferFromWalletType"
                                 class="block text-sm font-medium text-gray-700 mb-1">From Wallet *</label>
-                            <select wire:model="transferFromWalletType" id="transferFromWalletType"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-sm">
-                                <option value="fiat">Fiat Wallet (USD)</option>
-                                <option value="crypto">Crypto Wallet (BTC)</option>
-                                <option value="nuban">NUBAN Wallet (NGN)</option>
+                            <select wire:model="transferFromWalletType" id="transferFromWalletType" disabled
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-600 cursor-not-allowed text-sm">
+                                <option value="nuban">Fiat Wallet (NGN)</option>
                             </select>
                             @error('transferFromWalletType')
                                 <span class="text-red-500 text-xs">{{ $message }}</span>
@@ -270,11 +264,9 @@
                         <div>
                             <label for="transferToWalletType" class="block text-sm font-medium text-gray-700 mb-1">To
                                 Wallet *</label>
-                            <select wire:model="transferToWalletType" id="transferToWalletType"
-                                class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-blue-500 focus:border-blue-500 text-sm">
-                                <option value="fiat">Fiat Wallet (USD)</option>
-                                <option value="crypto">Crypto Wallet (BTC)</option>
-                                <option value="nuban">NUBAN Wallet (NGN)</option>
+                            <select wire:model="transferToWalletType" id="transferToWalletType" disabled
+                                class="w-full px-3 py-2 border border-gray-300 rounded-lg bg-gray-100 text-gray-600 cursor-not-allowed text-sm">
+                                <option value="nuban">Fiat Wallet (NGN)</option>
                             </select>
                             @error('transferToWalletType')
                                 <span class="text-red-500 text-xs">{{ $message }}</span>
