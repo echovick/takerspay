@@ -6,7 +6,7 @@
             </a>
             <img class="w-7 h-7 ml-2 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
                 alt="Rounded avatar">
-            <p class="text-xs font-semibold px-3">@ {{ auth()->user()->metaData->tag }}
+            <p class="text-xs font-semibold px-3">@ {{ auth()->user()->metaData?->tag ?? 'N/A' }}
                 <br>
                 <span class="font-normal text-xs">ORDER: {{ strtoupper($order?->reference) }}</span>
             </p>

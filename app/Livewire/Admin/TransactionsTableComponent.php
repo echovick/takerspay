@@ -123,7 +123,7 @@ class TransactionsTableComponent extends Component
             'completed' => 'bg-green-100 text-green-800',
             'pending' => 'bg-yellow-100 text-yellow-800',
             'failed' => 'bg-red-100 text-red-800',
-            'cancelled' => 'bg-gray-100 text-gray-800',
+            'canceled' => 'bg-gray-100 text-gray-800',
             default => 'bg-gray-100 text-gray-800',
         };
     }
@@ -134,7 +134,7 @@ class TransactionsTableComponent extends Component
             'completed' => 'bg-green-500',
             'pending' => 'bg-yellow-500',
             'failed' => 'bg-red-500',
-            'cancelled' => 'bg-gray-500',
+            'canceled' => 'bg-gray-500',
             default => 'bg-gray-500',
         };
     }

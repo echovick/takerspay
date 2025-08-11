@@ -19,7 +19,7 @@
                                 <option value="processing">Processing</option>
                                 <option value="confirmed">Confirmed</option>
                                 <option value="completed">Completed</option>
-                                <option value="cancelled">Cancelled</option>
+                                <option value="canceled">Canceled</option>
                             </select>
                             <button wire:click="updateOrderStatus" 
                                 class="px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
