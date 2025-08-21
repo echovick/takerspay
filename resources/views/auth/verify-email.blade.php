@@ -8,6 +8,8 @@
     <meta name="description" content="Verify your email address to complete your TakersPay account setup.">
     <link rel="icon" href="{{ asset('assets/imgs/takers-pay-logo.png') }}" type="image/x-icon">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="stylesheet" href="{{ asset('build/assets/app-CFeFbLk4.css') }}">
+    <script src="{{ asset('build/assets/app-BIKGneNk.js') }}"></script>
     @livewireStyles
     <style>
         body {
