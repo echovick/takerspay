@@ -3,6 +3,7 @@
 namespace App\Livewire\Auth;
 
 use App\Events\NewUserCreated;
+use App\Mail\EmailVerificationMail;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -59,10 +60,7 @@ class RegisterationForm extends Component
         ]);
 
         try {
-            Mail::raw("Welcome to TakersPay!\n\nYour verification code is: $otp\n\nThis code will expire in 10 minutes.", function ($message) use ($user) {
-                $message->to($user->email)
-                        ->subject('Welcome! Verify your email - TakersPay');
-            });
+            Mail::to($user->email)->send(new EmailVerificationMail($user, $otp));
         } catch (\Exception $e) {
             // Silently fail - user can request a new OTP on the verification page
         }

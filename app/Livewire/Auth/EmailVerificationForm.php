@@ -1,6 +1,7 @@
 <?php
 namespace App\Livewire\Auth;
 
+use App\Mail\EmailVerificationMail;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -48,10 +49,7 @@ class EmailVerificationForm extends Component
         ]);
 
         try {
-            Mail::raw("Your verification code is: $otp\n\nThis code will expire in 10 minutes.", function ($message) use ($user) {
-                $message->to($user->email)
-                    ->subject('Email Verification Code - TakersPay');
-            });
+            Mail::to($user->email)->send(new EmailVerificationMail($user, $otp));
 
             $this->otpSent  = true;
             $this->cooldown = 60;
@@ -102,7 +100,7 @@ class EmailVerificationForm extends Component
             session()->flash('message', 'Email verified successfully!');
             return redirect()->route('app.home');
         } catch (\Exception $e) {
-            \Log::error('Email verification error', ['error' => $e->getMessage()]);
+            Log::error('Email verification error', ['error' => $e->getMessage()]);
             session()->flash('error', 'An error occurred during verification. Please try again.');
         }
     }
