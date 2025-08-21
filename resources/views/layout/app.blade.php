@@ -54,6 +54,26 @@
             margin: auto !important;
         }
 
+        /* Sidebar layout adjustments */
+        @media (min-width: 768px) {
+            .app-wrapper {
+                margin-left: 256px !important; /* 64 * 4 = 256px (w-64) */
+                padding-left: 3% !important;
+            }
+        }
+
+        /* Adjust for mobile sidebar overlay and header */
+        @media (max-width: 767px) {
+            .app-wrapper {
+                padding-top: 80px !important; /* Space for mobile menu button and header */
+            }
+        }
+
+        /* Adjust main content for header */
+        .app-wrapper {
+            padding-top: 80px !important; /* Space for header on all screens */
+        }
+
         .animate-marquee {
             display: inline-block;
             animation: marquee 20s linear infinite;
@@ -83,6 +103,9 @@
 </head>
 
 <body>
+    <!-- Header -->
+    <livewire:header-component />
+    
     @yield('content')
     @stack('scripts')
     <script>
