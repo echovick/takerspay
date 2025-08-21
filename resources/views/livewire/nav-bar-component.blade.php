@@ -90,6 +90,17 @@
                         <span class="text-sm">Profile</span>
                     </a>
                 </li>
+                <li>
+                    <form method="POST" action="{{ route('logout') }}" class="w-full">
+                        @csrf
+                        <button type="submit" class="nav-link flex items-center w-full px-3 py-2.5 text-gray-700 dark:text-gray-300 rounded-md hover:bg-red-50 dark:hover:bg-red-900 hover:text-red-600 dark:hover:text-red-400 transition-colors duration-200">
+                            <svg class="w-4 h-4 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                            </svg>
+                            <span class="text-sm">Logout</span>
+                        </button>
+                    </form>
+                </li>
             </ul>
         </div>
     </nav>
