@@ -13,6 +13,11 @@ Route::get('/register', fn() => view('auth.register'))->name('register');
 Route::get('/forgot-password', fn() => view('auth.forgot-password'))->name('forgot-password');
 Route::get('/reset-password', fn() => view('auth.reset-password'))->name('reset-password');
 
+// Email verification routes
+Route::middleware('auth')->group(function () {
+    Route::get('/email/verify', fn() => view('auth.verify-email'))->name('verification.notice');
+});
+
 // Logout route
 Route::post('/logout', function () {
     Auth::logout();
@@ -21,7 +26,7 @@ Route::post('/logout', function () {
     return redirect('/login');
 })->name('logout');
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/home', fn() => view('app.home'))->name('app.home');
     Route::get('/orders', fn() => view('app.all-orders'))->name('app.all-orders');
     Route::get('/wallets', fn() => view('app.wallets'))->name('app.wallets');

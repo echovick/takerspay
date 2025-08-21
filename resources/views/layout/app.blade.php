@@ -16,7 +16,7 @@
     <meta name="google" content="notranslate">
     <meta name="google-site-verification" content="google-site-verification=google-site-verification">
     <link rel="icon" href="{{ asset('assets/imgs/takers-pay-logo.png') }}" type="image/x-icon">
-    {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="{{ asset('build/assets/app-BYw1X5l1.css') }}">
     @livewireStyles
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
@@ -57,7 +57,8 @@
         /* Sidebar layout adjustments */
         @media (min-width: 768px) {
             .app-wrapper {
-                margin-left: 256px !important; /* 64 * 4 = 256px (w-64) */
+                margin-left: 256px !important;
+                /* 64 * 4 = 256px (w-64) */
                 padding-left: 3% !important;
             }
         }
@@ -65,13 +66,15 @@
         /* Adjust for mobile sidebar overlay and header */
         @media (max-width: 767px) {
             .app-wrapper {
-                padding-top: 80px !important; /* Space for mobile menu button and header */
+                padding-top: 80px !important;
+                /* Space for mobile menu button and header */
             }
         }
 
         /* Adjust main content for header */
         .app-wrapper {
-            padding-top: 80px !important; /* Space for header on all screens */
+            padding-top: 80px !important;
+            /* Space for header on all screens */
         }
 
         .animate-marquee {
@@ -105,7 +108,7 @@
 <body>
     <!-- Header -->
     <livewire:header-component />
-    
+
     @yield('content')
     @stack('scripts')
     <script>

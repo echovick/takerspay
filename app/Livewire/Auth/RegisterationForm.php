@@ -4,8 +4,10 @@ namespace App\Livewire\Auth;
 
 use App\Events\NewUserCreated;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Livewire\Component;
 
 class RegisterationForm extends Component
@@ -28,9 +30,14 @@ class RegisterationForm extends Component
             $user = User::create($this->all());
             if ($user) {
                 NewUserCreated::dispatch($user);
+                Auth::login($user);
+                
+                // Send OTP for email verification
+                $this->sendVerificationOTP($user);
+                
                 DB::commit();
-                session()->flash('message', 'Registration Successful');
-                return redirect()->route('login');
+                session()->flash('message', 'Registration successful! Please verify your email.');
+                return redirect()->route('verification.notice');
             }
             DB::rollback();
             session()->flash('message', 'Something went wrong while registering user');
@@ -39,6 +46,25 @@ class RegisterationForm extends Component
             DB::rollback();
             session()->flash('message', 'Something went wrong while registering user');
             return;
+        }
+    }
+
+    private function sendVerificationOTP($user)
+    {
+        $otp = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+        
+        $user->update([
+            'otp' => $otp,
+            'otp_expires_at' => now()->addMinutes(10),
+        ]);
+
+        try {
+            Mail::raw("Welcome to TakersPay!\n\nYour verification code is: $otp\n\nThis code will expire in 10 minutes.", function ($message) use ($user) {
+                $message->to($user->email)
+                        ->subject('Welcome! Verify your email - TakersPay');
+            });
+        } catch (\Exception $e) {
+            // Silently fail - user can request a new OTP on the verification page
         }
     }
 
