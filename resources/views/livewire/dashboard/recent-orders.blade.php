@@ -15,10 +15,10 @@
                             <div class="flex-shrink-0">
                                 @if ($order->asset == 'crypto')
                                     <img class="w-8 h-8 rounded-full" src="{{ asset('assets/imgs/crypto-icon.png') }}"
-                                        alt="Neil image">
+                                        alt="Crypto image">
                                 @else
                                     <img class="w-8 h-8 rounded-full" src="{{ asset('assets/imgs/giftcard-icon.png') }}"
-                                        alt="Neil image">
+                                        alt="Giftcard image">
                                 @endif
                             </div>
                             <div class="flex-1 min-w-0 ms-4">
