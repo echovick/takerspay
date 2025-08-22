@@ -54,25 +54,25 @@
             margin: auto !important;
         }
 
-        /* Sidebar layout adjustments */
+        /* Sidebar layout adjustments - only for authenticated pages */
         @media (min-width: 768px) {
-            .app-wrapper {
+            body:has(.auth-layout) .app-wrapper {
                 margin-left: 256px !important;
                 /* 64 * 4 = 256px (w-64) */
                 padding-left: 3% !important;
             }
         }
 
-        /* Adjust for mobile sidebar overlay and header */
+        /* Adjust for mobile sidebar overlay and header - only for authenticated pages */
         @media (max-width: 767px) {
-            .app-wrapper {
+            body:has(.auth-layout) .app-wrapper {
                 padding-top: 80px !important;
                 /* Space for mobile menu button and header */
             }
         }
 
-        /* Adjust main content for header */
-        .app-wrapper {
+        /* Adjust main content for header - only for authenticated pages */
+        body:has(.auth-layout) .app-wrapper {
             padding-top: 80px !important;
             /* Space for header on all screens */
         }
@@ -105,9 +105,11 @@
     </style>
 </head>
 
-<body>
+<body @auth class="auth-layout" @endauth>
     <!-- Header -->
-    <livewire:header-component />
+    @auth
+        <livewire:header-component />
+    @endauth
 
     @yield('content')
     @stack('scripts')

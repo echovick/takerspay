@@ -321,6 +321,58 @@ class UserWalletsComponent extends Component
         }
     }
 
+    public function editWallet($walletId)
+    {
+        try {
+            $wallet = Wallet::findOrFail($walletId);
+            // For now, we'll just show a success message
+            // In a full implementation, this would open an edit modal
+            session()->flash('success', 'Edit functionality - Coming soon!');
+            
+            \Log::info('UserWalletsComponent: Edit wallet requested', [
+                'wallet_id' => $walletId,
+                'wallet_type' => $wallet->type
+            ]);
+        } catch (\Exception $e) {
+            session()->flash('error', 'Failed to edit wallet.');
+            \Log::error('UserWalletsComponent: Edit wallet failed', [
+                'wallet_id' => $walletId,
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function deleteWallet($walletId)
+    {
+        try {
+            $wallet = Wallet::findOrFail($walletId);
+            
+            // Check if wallet has any transactions before deleting
+            if ($wallet->transactions()->count() > 0) {
+                session()->flash('error', 'Cannot delete wallet with existing transactions.');
+                return;
+            }
+            
+            $wallet->delete();
+            
+            $this->dispatch('refreshWalletStats');
+            $this->clearWalletCache();
+            
+            session()->flash('success', 'Crypto wallet deleted successfully.');
+            
+            \Log::info('UserWalletsComponent: Wallet deleted successfully', [
+                'wallet_id' => $walletId,
+                'wallet_type' => $wallet->type
+            ]);
+        } catch (\Exception $e) {
+            session()->flash('error', 'Failed to delete wallet.');
+            \Log::error('UserWalletsComponent: Delete wallet failed', [
+                'wallet_id' => $walletId,
+                'error' => $e->getMessage()
+            ]);
+        }
+    }
+
     private function clearWalletCache()
     {
         \Illuminate\Support\Facades\Cache::forget('wallet_stats.total');

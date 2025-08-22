@@ -16,7 +16,7 @@
                     </div>
                 </button>
             </li>
-            {{-- <li class="me-2" role="presentation">
+            <li class="me-2" role="presentation">
                 <button wire:click="setActiveTab('crypto')" 
                     class="inline-block p-4 border-b-2 rounded-t-lg {{ $activeTab === 'crypto' ? 'text-blue-600 border-blue-600' : 'text-gray-500 border-transparent hover:text-gray-600 hover:border-gray-300' }}"
                     type="button" role="tab">
@@ -27,7 +27,7 @@
                         Crypto Wallets
                     </div>
                 </button>
-            </li> --}}
+            </li>
         </ul>
     </div>
 
@@ -76,31 +76,31 @@
                         </div>
                     </th>
                     @if ($activeTab === 'crypto')
-                        <th scope="col" class="px-6 py-3">Asset</th>
+                        <th scope="col" class="px-6 py-3 w-32">Asset</th>
                         <th scope="col" class="px-6 py-3">Wallet Number</th>
                     @else
                         <th scope="col" class="px-6 py-3">Wallet Details</th>
                         <th scope="col" class="px-6 py-3">Account Number</th>
-                    @endif
-                    <th scope="col" class="px-6 py-3 cursor-pointer hover:bg-gray-100"
-                        wire:click="sortBy('balance')">
-                        <div class="flex items-center">
-                            Balance
-                            @if ($sortBy === 'balance')
-                                @if ($sortDirection === 'asc')
-                                    <svg class="w-3 h-3 ml-1" fill="currentColor" viewBox="0 0 20 20">
-                                        <path
-                                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
-                                    </svg>
-                                @else
-                                    <svg class="w-3 h-3 ml-1" fill="currentColor" viewBox="0 0 20 20">
-                                        <path
-                                            d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" />
-                                    </svg>
+                        <th scope="col" class="px-6 py-3 cursor-pointer hover:bg-gray-100"
+                            wire:click="sortBy('balance')">
+                            <div class="flex items-center">
+                                Balance
+                                @if ($sortBy === 'balance')
+                                    @if ($sortDirection === 'asc')
+                                        <svg class="w-3 h-3 ml-1" fill="currentColor" viewBox="0 0 20 20">
+                                            <path
+                                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" />
+                                        </svg>
+                                    @else
+                                        <svg class="w-3 h-3 ml-1" fill="currentColor" viewBox="0 0 20 20">
+                                            <path
+                                                d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" />
+                                        </svg>
+                                    @endif
                                 @endif
-                            @endif
-                        </div>
-                    </th>
+                            </div>
+                        </th>
+                    @endif
                     <th scope="col" class="px-6 py-3">Status</th>
                     <th scope="col" class="px-6 py-3 cursor-pointer hover:bg-gray-100"
                         wire:click="sortBy('created_at')">
@@ -155,10 +155,7 @@
                         @if ($activeTab === 'crypto')
                             <td class="px-6 py-4">
                                 @if ($wallet->asset)
-                                    <span
-                                        class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
-                                        {{ $wallet->asset->name }}
-                                    </span>
+                                    <div class="font-medium text-gray-900">{{ $wallet->asset->name }}</div>
                                 @else
                                     <span class="text-gray-500">No Asset</span>
                                 @endif
@@ -180,11 +177,11 @@
                                 <div class="font-mono text-sm text-gray-900">{{ $wallet->account_number ?: 'Not Set' }}
                                 </div>
                             </td>
+                            <td class="px-6 py-4">
+                                <div class="font-medium text-gray-900">₦{{ number_format($wallet->balance, 2) }}</div>
+                                <div class="text-xs text-gray-500">{{ $wallet->currency ?? 'NGN' }}</div>
+                            </td>
                         @endif
-                        <td class="px-6 py-4">
-                            <div class="font-medium text-gray-900">₦{{ number_format($wallet->balance, 2) }}</div>
-                            <div class="text-xs text-gray-500">{{ $wallet->currency ?? 'NGN' }}</div>
-                        </td>
                         <td class="px-6 py-4">
                             <span
                                 class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
@@ -201,30 +198,45 @@
                         </td>
                         <td class="px-6 py-4">
                             <div class="flex items-center space-x-2">
-                                <button wire:click="openTransactionModal({{ $wallet->id }}, 'credit')"
-                                    onclick="console.log('Credit button clicked for wallet {{ $wallet->id }}, active tab: {{ $activeTab }}')"
-                                    class="text-green-600 hover:text-green-900 text-sm font-medium"
-                                    title="Credit Wallet">
-                                    Credit
-                                </button>
-                                <span class="text-gray-300">|</span>
-                                <button wire:click="openTransactionModal({{ $wallet->id }}, 'debit')"
-                                    onclick="console.log('Debit button clicked for wallet {{ $wallet->id }}, active tab: {{ $activeTab }}')"
-                                    class="text-red-600 hover:text-red-900 text-sm font-medium" title="Debit Wallet">
-                                    Debit
-                                </button>
-                                <span class="text-gray-300">|</span>
-                                <button wire:click="toggleWalletStatus({{ $wallet->id }})"
-                                    class="text-blue-600 hover:text-blue-900 text-sm font-medium"
-                                    title="Toggle Status">
-                                    {{ $wallet->status === 'active' ? 'Disable' : 'Enable' }}
-                                </button>
+                                @if ($activeTab === 'crypto')
+                                    <button wire:click="editWallet({{ $wallet->id }})"
+                                        class="text-blue-600 hover:text-blue-900 text-sm font-medium"
+                                        title="Edit Wallet">
+                                        Edit
+                                    </button>
+                                    <span class="text-gray-300">|</span>
+                                    <button wire:click="deleteWallet({{ $wallet->id }})"
+                                        wire:confirm="Are you sure you want to delete this crypto wallet?"
+                                        class="text-red-600 hover:text-red-900 text-sm font-medium"
+                                        title="Delete Wallet">
+                                        Delete
+                                    </button>
+                                @else
+                                    <button wire:click="openTransactionModal({{ $wallet->id }}, 'credit')"
+                                        onclick="console.log('Credit button clicked for wallet {{ $wallet->id }}, active tab: {{ $activeTab }}')"
+                                        class="text-green-600 hover:text-green-900 text-sm font-medium"
+                                        title="Credit Wallet">
+                                        Credit
+                                    </button>
+                                    <span class="text-gray-300">|</span>
+                                    <button wire:click="openTransactionModal({{ $wallet->id }}, 'debit')"
+                                        onclick="console.log('Debit button clicked for wallet {{ $wallet->id }}, active tab: {{ $activeTab }}')"
+                                        class="text-red-600 hover:text-red-900 text-sm font-medium" title="Debit Wallet">
+                                        Debit
+                                    </button>
+                                    <span class="text-gray-300">|</span>
+                                    <button wire:click="toggleWalletStatus({{ $wallet->id }})"
+                                        class="text-blue-600 hover:text-blue-900 text-sm font-medium"
+                                        title="Toggle Status">
+                                        {{ $wallet->status === 'active' ? 'Disable' : 'Enable' }}
+                                    </button>
+                                @endif
                             </div>
                         </td>
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="8" class="px-6 py-8 text-center">
+                        <td colspan="{{ $activeTab === 'crypto' ? '6' : '8' }}" class="px-6 py-8 text-center">
                             <div class="text-gray-500">
                                 <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24"
                                     stroke="currentColor">

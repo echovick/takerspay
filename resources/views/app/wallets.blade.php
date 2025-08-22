@@ -16,7 +16,7 @@
             </div>
         </div>
 
-        <form class="max-w mx-auto mb-4">
+        <form class="max-w mx-auto mb-4 pt-4">
             <label for="default-search"
                 class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
             <div class="relative">
@@ -36,8 +36,8 @@
         {{-- Crypto Wallet Component --}}
         <livewire:wallet.crypto-wallet-component />
 
-        {{-- Fiat Wallet Component --}}
-        <livewire:wallet.fiat-wallet-component />
+        {{-- Fiat Wallet Component - Removed as requested --}}
+        {{-- <livewire:wallet.fiat-wallet-component /> --}}
 
         <livewire:nav-bar-component />
     </div>
