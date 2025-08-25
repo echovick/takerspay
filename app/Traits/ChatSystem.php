@@ -488,15 +488,6 @@ trait ChatSystem
             $this->order->dollar_price = $dollarAmount;
             $this->order->naira_price  = $nairaEquivalent;
             
-            // Debug: Add a debug message to track values
-            $debugMessage = "DEBUG - Storing values:\n";
-            $debugMessage .= "Input Amount: {$amount}\n";
-            $debugMessage .= "Dollar Equivalent: {$dollarAmount}\n";
-            $debugMessage .= "Naira Equivalent: {$nairaEquivalent}\n";
-            $debugMessage .= "Currency: " . ($this->order->trade_currency ?? 'USD') . "\n";
-            $debugMessage .= "Asset: {$asset->name}\n";
-            $debugMessage .= "Rate: {$rate}";
-            $this->addMessage('Bot', $debugMessage);
 
         } catch (Exception $e) {
             $this->addMessage('Bot', 'Sorry, there was an error calculating the exchange rate. Please try again or contact support.');
