@@ -8,6 +8,7 @@ use App\Models\Order;
 use App\Models\User;
 use App\Models\Wallet;
 use App\Services\AssetService;
+use App\Services\CurrencyService;
 use App\Traits\ChatSystem;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -35,12 +36,14 @@ class OrderRecord extends Component
     public $adminWallet;
 
     protected AssetService $assetService;
+    protected CurrencyService $currencyService;
 
     public $photos = [];
 
-    public function boot(AssetService $assetService)
+    public function boot(AssetService $assetService, CurrencyService $currencyService)
     {
         $this->assetService = $assetService;
+        $this->currencyService = $currencyService;
     }
 
     public function mount()

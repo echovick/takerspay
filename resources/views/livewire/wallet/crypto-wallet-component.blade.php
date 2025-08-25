@@ -21,7 +21,7 @@
                                 clip-rule="evenodd" />
                         </svg>
 
-                        <span class="flex-1 text-sm ms-3 whitespace-nowrap px-3">{{ $wallet->asset->name }} ({{ $wallet->asset->slug }})</span>
+                        <span class="flex-1 text-sm ms-3 whitespace-nowrap px-3">{{ $wallet->asset?->name ?? 'Unknown Asset' }} ({{ $wallet->asset?->slug ?? 'N/A' }})</span>
                         <span
                             class="inline-flex items-center justify-center px-2 py-0.5 ms-3 text-xs font-medium text-white rounded">
                             <span data-modal-target="edit-crypto-wallet-modal" data-modal-toggle="edit-crypto-wallet-modal" wire:click="selectWallet('{{ $wallet->id }}')" type="button"><x-icons.edit /></span>

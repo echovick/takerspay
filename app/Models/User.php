@@ -84,6 +84,6 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function cryptoWallets()
     {
-        return Wallet::where('user_id', $this->attributes['id'])->where('type', 'crypto')->get();
+        return Wallet::where('user_id', $this->attributes['id'])->where('type', 'crypto')->with('asset')->get();
     }
 }
