@@ -38,9 +38,19 @@ class CurrencyService
             throw new Exception("Exchange rate not available for {$fromCurrency} to {$toCurrency}");
         }
 
-        // Convert to USD first, then to target currency
-        $usdAmount = $amount / $rates[$fromCurrency];
-        return $usdAmount * $rates[$toCurrency];
+        // Convert from source currency to USD, then to target currency
+        // Rates represent how much USD you get for 1 unit of foreign currency
+        if ($fromCurrency === 'USD') {
+            $usdAmount = $amount;
+        } else {
+            $usdAmount = $amount * $rates[$fromCurrency];
+        }
+        
+        if ($toCurrency === 'USD') {
+            return $usdAmount;
+        } else {
+            return $usdAmount / $rates[$toCurrency];
+        }
     }
 
     /**

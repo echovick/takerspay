@@ -175,7 +175,7 @@ class OrderRecord extends Component
 
     private function resetChat()
     {
-        $this->messages[] = ['sender' => 'Bot', 'text' => 'Oops, Unrecognized input, Chat has been reset.', 'timestamp' => Carbon::now()];
+        $this->messages[] = ['sender' => 'Bot', 'text' => '🔄 Chat has been reset.', 'timestamp' => Carbon::now()];
         $this->step = null;
         $this->data = [];
     }

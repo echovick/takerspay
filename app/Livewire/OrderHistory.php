@@ -12,7 +12,7 @@ class OrderHistory extends Component
 
     public function boot()
     {
-        $this->data['history'] = Order::where('user_id', Auth::id())->get();
+        $this->data['history'] = Order::where('user_id', Auth::id())->orderBy('created_at', 'desc')->get();
     }
 
     public function render()

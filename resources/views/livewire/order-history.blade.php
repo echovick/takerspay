@@ -22,7 +22,7 @@
                 role="group">
                 <button type="button"
                     class="px-5 py-1.5 text-xs font-medium text-white bg-primary-1000 dark:bg-gray-300 dark:text-gray-900 rounded-lg">
-                    Pending
+                    All
                 </button>
                 <button type="button"
                     class="px-5 py-1.5 text-xs font-medium text-gray-900 hover:bg-gray-200 dark:text-white dark:hover:bg-gray-700 rounded-lg">
@@ -55,14 +55,20 @@
                                         {{ ucwords($order->asset) }} {{ ucwords($order->type) }} Order
                                         @switch($order->transaction_status)
                                             @case('pending')
-                                                <span class="bg-yellow-100 text-yellow-800 text-xs font-medium mx-3 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-yellow-300 border border-yellow-300">Pending</span>
-                                                @break
+                                                <span
+                                                    class="bg-yellow-100 text-yellow-800 text-xs font-medium mx-3 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-yellow-300 border border-yellow-300">Pending</span>
+                                            @break
+
                                             @case('completed')
-                                                <span class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-green-400 border border-green-400">Completed</span>
-                                                @break
+                                                <span
+                                                    class="bg-green-100 text-green-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-green-400 border border-green-400">Completed</span>
+                                            @break
+
                                             @case('canceled')
-                                                <span class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-red-400 border border-red-400">Cancelled</span>
-                                                @break
+                                                <span
+                                                    class="bg-red-100 text-red-800 text-xs font-medium me-2 px-2.5 py-0.5 rounded dark:bg-gray-700 dark:text-red-400 border border-red-400">Cancelled</span>
+                                            @break
+
                                             @default
                                         @endswitch
                                     </a>
