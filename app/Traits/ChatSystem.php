@@ -487,7 +487,6 @@ trait ChatSystem
             $this->order->asset_value  = $amount;
             $this->order->dollar_price = $dollarAmount;
             $this->order->naira_price  = $nairaEquivalent;
-            
 
         } catch (Exception $e) {
             $this->addMessage('Bot', 'Sorry, there was an error calculating the exchange rate. Please try again or contact support.');
@@ -612,7 +611,7 @@ trait ChatSystem
                 $buyRate  = number_format($asset->naira_buy_rate, 0);
                 $sellRate = number_format($asset->naira_sell_rate, 0);
                 $rateMessage .= "🔸 **{$asset->name}**\n";
-                $rateMessage .= "   We Buy:  ₦{$sellRate}  |  We Sell: ₦{$buyRate}\n\n";
+                $rateMessage .= "   Buy:  ₦{$sellRate}  |  Sell: ₦{$buyRate}\n\n";
             }
         }
 
@@ -623,7 +622,7 @@ trait ChatSystem
                 $buyRate  = number_format($asset->naira_buy_rate, 0);
                 $sellRate = number_format($asset->naira_sell_rate, 0);
                 $rateMessage .= "🔸 **{$asset->name}**\n";
-                $rateMessage .= "   We Buy:  ₦{$sellRate}  |  We Sell: ₦{$buyRate}\n\n";
+                $rateMessage .= "   Buy:  ₦{$sellRate}  |  Sell: ₦{$buyRate}\n\n";
             }
         }
 
@@ -739,7 +738,7 @@ trait ChatSystem
             $buyRate  = number_format($asset->naira_buy_rate, 0);
             $sellRate = number_format($asset->naira_sell_rate, 0);
             $message .= "{$number}️⃣  {$emoji} **{$asset->name}**\n";
-            $message .= "    We Buy: ₦{$sellRate}  |  We Sell: ₦{$buyRate}\n\n";
+            $message .= "    Buy: ₦{$sellRate}  |  Sell: ₦{$buyRate}\n\n";
         }
 
         $message .= "💡 **Tips:**\n";
