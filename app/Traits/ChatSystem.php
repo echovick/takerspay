@@ -611,7 +611,7 @@ trait ChatSystem
                 $buyRate  = number_format($asset->naira_buy_rate, 0);
                 $sellRate = number_format($asset->naira_sell_rate, 0);
                 $rateMessage .= "🔸 **{$asset->name}**\n";
-                $rateMessage .= "   Buy:  ₦{$sellRate}  |  Sell: ₦{$buyRate}\n\n";
+                $rateMessage .= "   Buy:  ₦{$buyRate}  |  Sell: ₦{$sellRate}\n\n";
             }
         }
 
@@ -622,7 +622,7 @@ trait ChatSystem
                 $buyRate  = number_format($asset->naira_buy_rate, 0);
                 $sellRate = number_format($asset->naira_sell_rate, 0);
                 $rateMessage .= "🔸 **{$asset->name}**\n";
-                $rateMessage .= "   Buy:  ₦{$sellRate}  |  Sell: ₦{$buyRate}\n\n";
+                $rateMessage .= "   Buy:  ₦{$buyRate}  |  Sell: ₦{$sellRate}\n\n";
             }
         }
 
@@ -738,7 +738,7 @@ trait ChatSystem
             $buyRate  = number_format($asset->naira_buy_rate, 0);
             $sellRate = number_format($asset->naira_sell_rate, 0);
             $message .= "{$number}️⃣  {$emoji} **{$asset->name}**\n";
-            $message .= "    Buy: ₦{$sellRate}  |  Sell: ₦{$buyRate}\n\n";
+            $message .= "    Buy: ₦{$buyRate}  |  Sell: ₦{$sellRate}\n\n";
         }
 
         $message .= "💡 **Tips:**\n";
