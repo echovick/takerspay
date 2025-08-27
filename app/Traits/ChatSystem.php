@@ -603,7 +603,7 @@ trait ChatSystem
     private function returnTodayRate()
     {
         $rateMessage = "📊 **TODAY'S EXCHANGE RATES**\n\n";
-        $assets      = Asset::all()->groupBy('type');
+        $assets      = Asset::where('is_active', true)->get()->groupBy('type');
 
         if ($assets->has('crypto')) {
             $rateMessage .= "💰 **CRYPTOCURRENCY**\n";

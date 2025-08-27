@@ -208,6 +208,31 @@ class AssetsTableComponent extends Component
         }
     }
 
+    public function toggleAssetStatus($assetId)
+    {
+        try {
+            $asset = Asset::findOrFail($assetId);
+            $asset->is_active = !$asset->is_active;
+            $asset->save();
+            
+            $status = $asset->is_active ? 'enabled' : 'disabled';
+            $this->dispatch('refreshAssetStats');
+
+            // Clear cache
+            \Illuminate\Support\Facades\Cache::forget('asset_stats.total');
+            \Illuminate\Support\Facades\Cache::forget('asset_stats.crypto');
+            \Illuminate\Support\Facades\Cache::forget('asset_stats.giftcard');
+            \Illuminate\Support\Facades\Cache::forget('asset_stats.active');
+            \Illuminate\Support\Facades\Cache::forget('asset_stats.orders');
+            \Illuminate\Support\Facades\Cache::forget('asset_stats.rates');
+
+            session()->flash('success', "Asset {$status} successfully!");
+
+        } catch (\Exception $e) {
+            session()->flash('error', 'Failed to update asset status. Please try again.');
+        }
+    }
+
     public function deleteAsset($assetId)
     {
         try {

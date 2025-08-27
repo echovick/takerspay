@@ -91,10 +91,13 @@
                     </div>
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    Status
+                    Availability
                 </th>
                 <th scope="col" class="px-6 py-3">
                     Orders
+                </th>
+                <th scope="col" class="px-6 py-3">
+                    Status
                 </th>
                 <th scope="col" class="px-6 py-3">
                     Action
@@ -170,8 +173,21 @@
                         </div>
                     </td>
                     <td class="px-6 py-4">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium 
+                            {{ $asset->is_active ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }}">
+                            <span class="h-1.5 w-1.5 mr-1.5 rounded-full 
+                                {{ $asset->is_active ? 'bg-green-500' : 'bg-red-500' }}"></span>
+                            {{ $asset->is_active ? 'Active' : 'Inactive' }}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4">
                         <div class="flex items-center space-x-2">
                             <button wire:click="editAsset({{ $asset->id }})" class="text-blue-600 hover:text-blue-900 text-sm font-medium">Edit</button>
+                            <span class="text-gray-300">|</span>
+                            <button wire:click="toggleAssetStatus({{ $asset->id }})" 
+                                class="{{ $asset->is_active ? 'text-orange-600 hover:text-orange-900' : 'text-green-600 hover:text-green-900' }} text-sm font-medium">
+                                {{ $asset->is_active ? 'Disable' : 'Enable' }}
+                            </button>
                             <span class="text-gray-300">|</span>
                             <button wire:click="deleteAsset({{ $asset->id }})" wire:confirm="Are you sure you want to delete this asset? This action cannot be undone." 
                                 class="text-red-600 hover:text-red-900 text-sm font-medium">Delete</button>
@@ -180,7 +196,7 @@
                 </tr>
             @empty
                 <tr>
-                    <td colspan="9" class="px-6 py-8 text-center">
+                    <td colspan="10" class="px-6 py-8 text-center">
                         <div class="text-gray-500">
                             <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />

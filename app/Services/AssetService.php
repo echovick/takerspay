@@ -6,12 +6,19 @@ use App\Models\Asset;
 
 class AssetService
 {
-    public function getAssets(AssetType $type = null)
+    public function getAssets(AssetType $type = null, bool $activeOnly = true)
     {
-        if (!$type) {
-            return Asset::all();
+        $query = Asset::query();
+        
+        if ($activeOnly) {
+            $query->where('is_active', true);
         }
-        return Asset::where('type', $type)->get();
+        
+        if ($type) {
+            $query->where('type', $type);
+        }
+        
+        return $query->get();
     }
 
     public function getAsset(string $assetId, AssetType $type = null): ?Asset
