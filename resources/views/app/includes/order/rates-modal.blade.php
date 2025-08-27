@@ -43,11 +43,11 @@
                             </thead>
                             <tbody>
                                 @foreach ($cryptoAssets as $asset)
-                                <tr>
-                                    <td class="text-sm font-bold">{{ ucwords($asset->name) }}:</td>
-                                    <td>{{ $asset->naira_buy_rate > 1 ? $asset->naira_buy_rate : '--' }}/$</td>
-                                    <td>{{ $asset->naira_buy_rate > 1 ? $asset->naira_sell_rate : '--' }}/$</td>
-                                </tr>
+                                    <tr>
+                                        <td class="text-sm font-bold">{{ ucwords($asset->name) }}:</td>
+                                        <td>{{ $asset->naira_buy_rate > 1 ? $asset->naira_buy_rate : '--' }}/$</td>
+                                        <td>{{ $asset->naira_sell_rate > 1 ? $asset->naira_sell_rate : '--' }}/$</td>
+                                    </tr>
                                 @endforeach
                             </tbody>
                         </table>
@@ -75,11 +75,11 @@
                             </thead>
                             <tbody>
                                 @foreach ($giftcardAssets as $asset)
-                                <tr>
-                                    <td class="text-sm font-bold">{{ ucwords($asset->name) }}:</td>
-                                    <td>{{ $asset->naira_buy_rate > 1 ? $asset->naira_buy_rate : '--' }}/$</td>
-                                    <td>{{ $asset->naira_buy_rate > 1 ? $asset->naira_sell_rate : '--' }}/$</td>
-                                </tr>
+                                    <tr>
+                                        <td class="text-sm font-bold">{{ ucwords($asset->name) }}:</td>
+                                        <td>{{ $asset->naira_buy_rate > 1 ? $asset->naira_buy_rate : '--' }}/$</td>
+                                        <td>{{ $asset->naira_buy_rate > 1 ? $asset->naira_sell_rate : '--' }}/$</td>
+                                    </tr>
                                 @endforeach
                             </tbody>
                         </table>

@@ -2,7 +2,6 @@
 namespace App\Services;
 
 use App\Models\Asset;
-use App\Models\ExchangeRate;
 use Exception;
 
 class CurrencyService
@@ -33,8 +32,8 @@ class CurrencyService
 
         // Get current exchange rates
         $rates = $this->getCurrentExchangeRates();
-        
-        if (!isset($rates[$fromCurrency]) || !isset($rates[$toCurrency])) {
+
+        if (! isset($rates[$fromCurrency]) || ! isset($rates[$toCurrency])) {
             throw new Exception("Exchange rate not available for {$fromCurrency} to {$toCurrency}");
         }
 
@@ -45,7 +44,7 @@ class CurrencyService
         } else {
             $usdAmount = $amount * $rates[$fromCurrency];
         }
-        
+
         if ($toCurrency === 'USD') {
             return $usdAmount;
         } else {
@@ -58,11 +57,11 @@ class CurrencyService
      */
     public function calculateCryptoNairaEquivalent(float $dollarAmount, Asset $asset, string $transactionType): float
     {
-        // Fix the rate logic: 
+        // Fix the rate logic:
         // When user BUYS crypto, they pay naira at the platform's sell rate
         // When user SELLS crypto, they receive naira at the platform's buy rate
-        $rate = $transactionType === 'buy' ? $asset->naira_sell_rate : $asset->naira_buy_rate;
-        
+        $rate = $transactionType === 'buy' ? $asset->naira_buy_rate : $asset->naira_sell_rate;
+
         return $dollarAmount * $rate;
     }
 
@@ -73,10 +72,10 @@ class CurrencyService
     {
         // Convert gift card currency to USD first
         $dollarAmount = $this->convertCurrency($amount, $currency, 'USD');
-        
+
         // Then calculate naira equivalent using asset rates
-        $rate = $transactionType === 'buy' ? $asset->naira_sell_rate : $asset->naira_buy_rate;
-        
+        $rate = $transactionType === 'buy' ? $asset->naira_buy_rate : $asset->naira_sell_rate;
+
         return $dollarAmount * $rate;
     }
 

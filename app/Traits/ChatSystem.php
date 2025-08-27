@@ -436,7 +436,7 @@ trait ChatSystem
             }
 
             // Get the rate used for calculation (matches CurrencyService logic)
-            $rate = $this->order->type == 'buy' ? $asset->naira_sell_rate : $asset->naira_buy_rate;
+            $rate = $this->order->type == 'buy' ? $asset->naira_buy_rate : $asset->naira_sell_rate;
 
             $this->step              = 'confirm_purchase';
             $this->order->order_step = 'confirm_purchase';
