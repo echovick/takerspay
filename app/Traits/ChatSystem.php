@@ -435,7 +435,7 @@ trait ChatSystem
                 $dollarAmount    = $this->currencyService->convertCurrency($amount, $currency, 'USD');
             }
 
-            // Get the rate used for transparency
+            // Get the rate used for calculation (matches CurrencyService logic)
             $rate = $this->order->type == 'buy' ? $asset->naira_sell_rate : $asset->naira_buy_rate;
 
             $this->step              = 'confirm_purchase';
@@ -612,7 +612,7 @@ trait ChatSystem
                 $buyRate  = number_format($asset->naira_buy_rate, 0);
                 $sellRate = number_format($asset->naira_sell_rate, 0);
                 $rateMessage .= "🔸 **{$asset->name}**\n";
-                $rateMessage .= "   Buy:  ₦{$buyRate}  |  Sell: ₦{$sellRate}\n\n";
+                $rateMessage .= "   We Buy:  ₦{$sellRate}  |  We Sell: ₦{$buyRate}\n\n";
             }
         }
 
@@ -623,7 +623,7 @@ trait ChatSystem
                 $buyRate  = number_format($asset->naira_buy_rate, 0);
                 $sellRate = number_format($asset->naira_sell_rate, 0);
                 $rateMessage .= "🔸 **{$asset->name}**\n";
-                $rateMessage .= "   Buy:  ₦{$buyRate}  |  Sell: ₦{$sellRate}\n\n";
+                $rateMessage .= "   We Buy:  ₦{$sellRate}  |  We Sell: ₦{$buyRate}\n\n";
             }
         }
 
@@ -739,7 +739,7 @@ trait ChatSystem
             $buyRate  = number_format($asset->naira_buy_rate, 0);
             $sellRate = number_format($asset->naira_sell_rate, 0);
             $message .= "{$number}️⃣  {$emoji} **{$asset->name}**\n";
-            $message .= "    Buy: ₦{$buyRate}  |  Sell: ₦{$sellRate}\n\n";
+            $message .= "    We Buy: ₦{$sellRate}  |  We Sell: ₦{$buyRate}\n\n";
         }
 
         $message .= "💡 **Tips:**\n";

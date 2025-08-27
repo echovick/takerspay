@@ -644,6 +644,22 @@ namespace App\Models {
     /**
      * App\Models\ExchangeRate
      *
+     * @property \Illuminate\Support\Carbon|null $updated_at
+     * @property \Illuminate\Support\Carbon|null $created_at
+     * @property \Illuminate\Support\Carbon|null $valid_until
+     * @property string $source
+     * @property decimal:8 $rate
+     * @property string $to_currency
+     * @property string $from_currency
+     * @property int $id
+     * @method static \Illuminate\Database\Eloquent\Builder<ExchangeRate>|ExchangeRate whereId($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<ExchangeRate>|ExchangeRate whereFromCurrency($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<ExchangeRate>|ExchangeRate whereToCurrency($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<ExchangeRate>|ExchangeRate whereRate($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<ExchangeRate>|ExchangeRate whereSource($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<ExchangeRate>|ExchangeRate whereValidUntil($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<ExchangeRate>|ExchangeRate whereCreatedAt($value)
+     * @method static \Illuminate\Database\Eloquent\Builder<ExchangeRate>|ExchangeRate whereUpdatedAt($value)
      * @method static \Illuminate\Database\Eloquent\Builder<ExchangeRate>|ExchangeRate newModelQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<ExchangeRate>|ExchangeRate newQuery()
      * @method static \Illuminate\Database\Eloquent\Builder<ExchangeRate>|ExchangeRate query()
