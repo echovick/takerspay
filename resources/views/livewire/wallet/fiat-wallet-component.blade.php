@@ -22,7 +22,8 @@
                         </svg>
 
                         <span class="flex-1 text-sm ms-3 whitespace-nowrap px-3">{{ $wallet->bank_name }}
-                            ({{ $wallet->account_number }})</span>
+                            ({{ $wallet->account_number }})
+                        </span>
                         <span
                             class="inline-flex items-center justify-center px-2 py-0.5 ms-3 text-xs font-medium text-white rounded">
                             <span data-modal-target="edit-bank-account-modal"

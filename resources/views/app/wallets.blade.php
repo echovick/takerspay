@@ -37,7 +37,7 @@
         <livewire:wallet.crypto-wallet-component />
 
         {{-- Fiat Wallet Component - Removed as requested --}}
-        {{-- <livewire:wallet.fiat-wallet-component /> --}}
+        <livewire:wallet.fiat-wallet-component />
 
         <livewire:nav-bar-component />
     </div>
