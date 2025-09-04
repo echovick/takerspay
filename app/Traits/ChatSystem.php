@@ -449,7 +449,10 @@ trait ChatSystem
                 $summaryMessage .= "Amount: \${$amount}\n";
                 $summaryMessage .= "Rate: ₦{$rate} per \$1\n";
                 $summaryMessage .= "Total: ₦" . number_format($nairaEquivalent, 2) . "\n\n";
-                $summaryMessage .= "Credit your fundspadi account with ₦" . number_format($nairaEquivalent, 2) . " 👉 fundspadi.com\n";
+                $summaryMessage .= "Transfer ₦" . number_format($nairaEquivalent, 2) . " to:\n";
+                $summaryMessage .= "Account Number: 1921914650\n";
+                $summaryMessage .= "Bank: Access Bank\n";
+                $summaryMessage .= "Account Name: Tillinfiniti Consult Limited\n";
                 $summaryMessage .= "— Crypto goes to your wallet.\n\n";
                 $summaryMessage .= "Do you want to proceed? (Type 'yes' to confirm or 'back' to go back)";
 
@@ -467,7 +470,10 @@ trait ChatSystem
                 $summaryMessage .= "USD Equivalent: \$" . number_format($dollarAmount, 2) . "\n";
                 $summaryMessage .= "Rate: ₦{$rate} per \$1\n";
                 $summaryMessage .= "Total: ₦" . number_format($nairaEquivalent, 2) . "\n\n";
-                $summaryMessage .= "Credit your fundspadi account with ₦" . number_format($nairaEquivalent, 2) . " 👉 fundspadi.com\n";
+                $summaryMessage .= "Transfer ₦" . number_format($nairaEquivalent, 2) . " to:\n";
+                $summaryMessage .= "Account Number: 1921914650\n";
+                $summaryMessage .= "Bank: Access Bank\n";
+                $summaryMessage .= "Account Name: Tillinfiniti Consult Limited\n";
                 $summaryMessage .= "— Giftcards sent by email.\n\n";
                 $summaryMessage .= "Do you want to proceed? (Type 'yes' to confirm or 'back' to go back)";
 
@@ -546,8 +552,11 @@ trait ChatSystem
             if ($this->order->type == 'buy' && $this->order->asset == 'crypto') {
                 $confirmationMessage .= "💳 PAYMENT INSTRUCTIONS:\n";
                 $confirmationMessage .= "Amount: ₦" . number_format($this->order->naira_price, 2) . "\n";
-                $confirmationMessage .= "Platform: FundsPadi Account 👉 fundspadi.com\n";
-                $confirmationMessage .= "Note: Funds will be deducted automatically from your FundsPadi wallet\n";
+                $confirmationMessage .= "Bank Transfer Details:\n";
+                $confirmationMessage .= "Account Number: 1921914650\n";
+                $confirmationMessage .= "Bank: Access Bank\n";
+                $confirmationMessage .= "Account Name: Tillinfiniti Consult Limited\n";
+                $confirmationMessage .= "Note: Transfer funds to the account above\n";
                 $confirmationMessage .= "Reference: {$this->order->reference}\n\n";
                 $confirmationMessage .= "After payment, you'll receive \${$this->order->asset_value} worth of {$asset->name} in your wallet.\n\n";
 
@@ -560,8 +569,11 @@ trait ChatSystem
             } else if ($this->order->type == 'buy' && $this->order->asset == 'giftcard') {
                 $confirmationMessage .= "💳 PAYMENT INSTRUCTIONS:\n";
                 $confirmationMessage .= "Amount: ₦" . number_format($this->order->naira_price, 2) . "\n";
-                $confirmationMessage .= "Platform: FundsPadi Account 👉 fundspadi.com\n";
-                $confirmationMessage .= "Note: Funds will be deducted automatically from your FundsPadi wallet\n";
+                $confirmationMessage .= "Bank Transfer Details:\n";
+                $confirmationMessage .= "Account Number: 1921914650\n";
+                $confirmationMessage .= "Bank: Access Bank\n";
+                $confirmationMessage .= "Account Name: Tillinfiniti Consult Limited\n";
+                $confirmationMessage .= "Note: Transfer funds to the account above\n";
                 $confirmationMessage .= "Reference: {$this->order->reference}\n\n";
                 $confirmationMessage .= "After payment, you'll receive your {$asset->name} gift card.\n\n";
 
