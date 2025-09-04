@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Livewire\Wallet;
 
 use App\Constants\AssetType;
@@ -16,7 +15,7 @@ class CryptoWalletComponent extends Component
     public $selectedWallet;
     public $walletAddress;
     public $user;
-    public $errorMsg = '';
+    public $errorMsg   = '';
     public $successMsg = '';
 
     protected AssetService $assetService;
@@ -26,8 +25,8 @@ class CryptoWalletComponent extends Component
         AssetService $assetService,
         WalletService $walletService
     ) {
-        $this->user = Auth::user();
-        $this->assetService = $assetService;
+        $this->user          = Auth::user();
+        $this->assetService  = $assetService;
         $this->walletService = $walletService;
         $this->initialiseComponentData();
     }
@@ -41,15 +40,15 @@ class CryptoWalletComponent extends Component
     {
         $this->clearAlerts();
         $this->cryptoWallets = $this->user->cryptoWallets();
-        $this->cryptoAssets = $this->assetService->getAssets(AssetType::CRYPTO);
+        $this->cryptoAssets  = $this->assetService->getAssets(AssetType::CRYPTO);
     }
 
     public function addCryptoWallet()
     {
         $data = [
-            'user_id' => $this->user->id,
-            'type' => 'crypto',
-            'asset_id' => $this->walletTypeId,
+            'user_id'              => $this->user->id,
+            'type'                 => 'crypto',
+            'asset_id'             => $this->walletTypeId,
             'crypto_wallet_number' => $this->walletAddress,
         ];
         try {
@@ -77,16 +76,20 @@ class CryptoWalletComponent extends Component
     public function selectWallet(string $walletId)
     {
         $this->selectedWallet = $this->walletService->getWallet($walletId);
-        $this->walletTypeId = $this->selectedWallet?->asset_id;
-        $this->walletAddress = $this->selectedWallet?->crypto_wallet_number;
+        $this->walletTypeId   = $this->selectedWallet?->asset_id;
+        $this->walletAddress  = $this->selectedWallet?->crypto_wallet_number;
     }
 
     public function updateCryptoWallet()
     {
         try {
-            $this->walletService->updateWallet($this->selectedWallet->id, ['crypto_wallet_number' => $this->walletAddress]);
+            $updateData = [
+                'crypto_wallet_number' => $this->walletAddress,
+                'asset_id'             => $this->walletTypeId,
+            ];
+            $res = $this->walletService->updateWallet($this->selectedWallet->id, $updateData);
             $this->initialiseComponentData();
-            $this->successMsg = 'Crypto Wallet Updated Successfully Successfully';
+            $this->successMsg = 'Crypto Wallet Updated Successfully';
         } catch (\Exception $e) {
             $this->errorMsg = $e->getMessage();
         }
@@ -94,14 +97,14 @@ class CryptoWalletComponent extends Component
 
     public function clearAttributes()
     {
-        $this->walletTypeId = '';
+        $this->walletTypeId  = '';
         $this->walletAddress = '';
     }
 
     public function clearAlerts()
     {
         $this->successMsg = '';
-        $this->errorMsg = '';
+        $this->errorMsg   = '';
     }
 
     public function render()

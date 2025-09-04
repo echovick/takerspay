@@ -29,24 +29,24 @@
                     @endif
                     @if (isset($errorMsg) && !empty($errorMsg))
                         <x-alerts.danger-alert> {{ $errorMsg }} </x-alerts.info-alert>
-                        @php $errorMsg = '';@endphp
+                            @php $errorMsg = '';@endphp
                     @endif
                 </div>
                 <div class="p-4 md:p-5 space-y-4">
                     <div class="mb-5">
                         <label for="countries"
                             class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select currency</label>
-                        <select id="countries" wire:model.fill="walletTypeId"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" readonly>
+                        <select id="countries" wire:model.live="walletTypeId"
+                            class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                            <option value="">Select Currency</option>
                             @foreach ($cryptoAssets as $asset)
-                                <option value="{{ $asset->id }}" disabled>{{ ucwords($asset->name) }} ({{ $asset->slug }})
+                                <option value="{{ $asset->id }}">{{ ucwords($asset->name) }} ({{ $asset->slug }})
                                 </option>
                             @endforeach
                         </select>
                     </div>
                     <div class="mb-5">
-                        <label for="wallet"
-                            class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Enter
+                        <label for="wallet" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Enter
                             Wallet Address</label>
                         <input type="text" id="wallet" wire:model.fill="walletAddress"
                             class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
